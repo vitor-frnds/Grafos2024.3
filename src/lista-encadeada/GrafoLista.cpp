@@ -97,7 +97,7 @@ void GrafoLista::carregaGrafo() {
         }
     }
 
-    imprimirArestas();
+    //imprimirArestas();
     arquivo.close();
 }
 
@@ -113,8 +113,6 @@ void GrafoLista::inserirVertice(int id, int peso) {
 void GrafoLista::inserirAresta(Vertice *inicio, Vertice *fim, int peso) {
     if (inicio == fim) {
         cout << "Erro: o grafo não permite inserir laço." << endl;
-    } else if (inicio->getArestas() != nullptr) {
-        cout << "Erro: o grafo não permite arestas múltiplas." << endl;
     } else {
         // Criando aresta
         Aresta* a = new Aresta();
@@ -123,7 +121,10 @@ void GrafoLista::inserirAresta(Vertice *inicio, Vertice *fim, int peso) {
         a->setFim(fim);
 
         // Adicionando ponteiro da aresta no vértice
-        inicio->setArestas(a);
+        inicio->inserirAresta(a);
+        if (!ehDirecionado()) {
+            fim->inserirAresta(a);
+        }
 
         // Adicionando aresta na lista
         if (raizAresta != nullptr) {
@@ -131,7 +132,7 @@ void GrafoLista::inserirAresta(Vertice *inicio, Vertice *fim, int peso) {
         }
         raizAresta = a;
 
-        cout << "Aresta inserida: " << endl;
+        cout << "Aresta inserida: " << a->getInicio()->getId() << " -> " << a->getFim()->getId() << endl;
     }
 }
 
@@ -175,31 +176,39 @@ int GrafoLista::getOrdem() {
     return ordem;
 }
 
-bool GrafoLista::ehConexo() {
-    int tam = getOrdem();
-    Vertice* visitados[tam];
-    visitados[0] = raizVertice;
+bool GrafoLista::ehDirecionado() {
+    return direcionado;
+}
 
-    int i = 0;
-    while (i < tam || visitados[i]->getArestas() != nullptr) {
-        Vertice* v = visitados[i]->getArestas()->getFim();
-        for (int j = 0; j <= i; j++) {
-            if (visitados[j] == v) {
-                // Como não suporta aresta múltipla então já posso dizer que não é conexo
-                return false;
-            }
+void GrafoLista::auxEhConexo(bool *visitados, Vertice *v) {
+    visitados[v->getId() - 1] = true;
+    for (int i = 0; i < v->totalArestas(); ++i) {
+        Aresta* a = v->getAresta(i);
+        Vertice* adj = a->getFim();
+        if (!visitados[adj->getId() - 1]) {
+            auxEhConexo(visitados, adj);
         }
-        visitados[i+1] = v;
-        i++;
-    }
-
-    if (i+1 != tam) {
-        return false;
-    } else {
-        return true;
     }
 }
 
-bool GrafoLista::ehDirecionado() {
-    return direcionado;
+bool GrafoLista::ehConexo() {
+    int numVertices = getOrdem();
+    if (numVertices == 0) return true;
+
+    bool *visitados = new bool[numVertices];
+    for (int i = 0; i < numVertices; ++i) {
+        visitados[i] = false;
+    }
+
+    auxEhConexo(visitados, raizVertice);
+
+    for (int i = 0; i < numVertices; ++i) {
+        if (!visitados[i]) {
+            delete[] visitados;
+            return false;
+        }
+    }
+
+    delete[] visitados;
+    return true;
 }
