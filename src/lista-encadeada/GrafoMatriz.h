@@ -6,7 +6,7 @@
 
 class GrafoMatriz : public Grafo{
     private:
-        static int MAX_VERTICES = 100;
+        static int MAX_VERTICES;
         int matriz[MAX_VERTICES][MAX_VERTICES];
 
     public:
