@@ -292,8 +292,6 @@ void GrafoLista::novo_grafo() {
     arquivo >> grau >> ordem >> direcionado >> componentes_conexas >> vertice_ponderado >> aresta_ponderada >>
     completo >> bipartido >> arvore >> aresta_ponte >> vertice_articulado;
 
-    this->direcionado = direcionado;
-
 
     arquivo.close();
 }
