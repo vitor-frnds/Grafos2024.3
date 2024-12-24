@@ -286,54 +286,14 @@ void GrafoLista::novo_grafo() {
         exit(1);
     }
 
-    int numVertices, direcionado, ponderado_nos, ponderado_arestas;
-    arquivo >> numVertices >> direcionado >> ponderado_nos >> ponderado_arestas;
+    int grau, ordem, componentes_conexas, aresta_ponte, vertice_articulado;
+    bool direcionado, vertice_ponderado, aresta_ponderada, completo, bipartido, arvore;
+
+    arquivo >> grau >> ordem >> direcionado >> componentes_conexas >> vertice_ponderado >> aresta_ponderada >>
+    completo >> bipartido >> arvore >> aresta_ponte >> vertice_articulado;
 
     this->direcionado = direcionado;
 
-    // Criar vértices
-    if (ponderado_nos == 1) {
-        int peso;
-        for (int i = 0; i < numVertices; ++i) {
-            arquivo >> peso;
-            inserirVertice(i+1, peso);
-        }
-    } else {
-        for (int i = 0; i < numVertices; ++i) {
-            inserirVertice(i+1, 1);
-        }
-    }
 
-    imprimirVertices();
-
-    // Criar arestas
-    int origem, destino, peso;
-    while (arquivo >> origem >> destino) {
-        Vertice *v = raizVertice;
-        Vertice *inicio = nullptr;
-        Vertice *fim = nullptr;
-        while (v != nullptr) {
-            if (v->getId() == origem) {
-                inicio = v;
-            }
-            if (v->getId() == destino) {
-                fim = v;
-            }
-            v = v->getProx();
-        }
-
-        if (inicio != nullptr && fim != nullptr) {
-            if (ponderado_arestas == 1) {
-                arquivo >> peso;
-                inserirAresta(inicio, fim, peso);
-            } else {
-                inserirAresta(inicio, fim, 1);
-            }
-        } else {
-            cout << "Erro ao inserir arquivo" << endl;
-        }
-    }
-
-    //imprimirArestas();
     arquivo.close();
 }
