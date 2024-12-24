@@ -1,6 +1,7 @@
-#ifndef GRAFO_H
-#define GRAFO_H
+#ifndef GRAFOLISTA_H
+#define GRAFOLISTA_H
 
+#include <Grafo.h>
 #include "Vertice.h"
 #include "Aresta.h"
 
@@ -10,16 +11,23 @@
 
 class Vertice;
 
-class GrafoLista {
+class GrafoLista : public Grafo {
 public:
     GrafoLista();
     ~GrafoLista();
-    void carregaGrafo(); /// Função que lê um arquivo txt com um grafo e carrega ele
-    bool arestaPonderada(); /// Função que informa se as arestas do grafo tem peso
-    int getOrdem(); /// Função que retorna a ordem do grafo
-    bool ehDirecionado(); /// Função que retorna se o grafo é direcionado ou não
-    bool ehArvore(); /// Função que diz se o grafo é uma árvore
-    int nConexo(); /// Função que indica a quantidade de componentes conexas
+    bool eh_bipartido() override;
+    int n_conexo() override; /// Função que indica a quantidade de componentes conexas
+    int get_grau() override;
+    int get_ordem() override; /// Função que retorna a ordem do grafo
+    bool eh_direcionado() override; /// Função que retorna se o grafo é direcionado ou não
+    bool vertice_ponderado() override;
+    bool aresta_ponderada() override; /// Função que informa se as arestas do grafo tem peso
+    bool eh_completo() override;
+    bool eh_arvore()override; /// Função que diz se o grafo é uma árvore
+    bool possui_articulacao() override;
+    bool possui_ponte() override;
+    void carrega_grafo() override; /// Função que lê um arquivo txt com um grafo e carrega ele
+    void novo_grafo() override;
 private:
     Vertice* raizVertice;
     Aresta* raizAresta;
@@ -36,4 +44,4 @@ private:
     void auxNConexo(bool *visitados, Vertice *v);
 };
 
-#endif //GRAFO_H
+#endif //GRAFOLISTA_H

@@ -24,9 +24,9 @@ GrafoLista::~GrafoLista() {
     }
 }
 
-void GrafoLista::carregaGrafo() {
+void GrafoLista::carrega_grafo() {
     ifstream arquivo;
-    arquivo.open("C:/Users/henri/CLionProjects/trabalho-grafos/Grafo.txt", ios::in);
+    arquivo.open("../../input/Grafo.txt", ios::in);
 
     if (!arquivo.is_open()) {
         cout << "Erro ao abrir o arquivo!" << endl;
@@ -106,7 +106,7 @@ void GrafoLista::inserirAresta(Vertice *inicio, Vertice *fim, int peso) {
 
         // Adicionando ponteiro da aresta no vértice
         inicio->inserirAresta(a);
-        if (!ehDirecionado()) {
+        if (!eh_direcionado()) {
             fim->inserirAresta(a);
         }
 
@@ -139,7 +139,7 @@ void GrafoLista::imprimirArestas() {
     }
 }
 
-bool GrafoLista::arestaPonderada() {
+bool GrafoLista::aresta_ponderada() {
     Aresta *a = raizAresta;
     while (a != nullptr) {
         if (a->getPeso() != 1) {
@@ -150,7 +150,7 @@ bool GrafoLista::arestaPonderada() {
     return false;
 }
 
-int GrafoLista::getOrdem() {
+int GrafoLista::get_ordem() {
     Vertice* v = raizVertice;
     int ordem = 0;
     while (v != nullptr) {
@@ -160,12 +160,12 @@ int GrafoLista::getOrdem() {
     return ordem;
 }
 
-bool GrafoLista::ehDirecionado() {
+bool GrafoLista::eh_direcionado() {
     return direcionado;
 }
 
 bool GrafoLista::ehConexo() {
-    int numVertices = getOrdem();
+    int numVertices = get_ordem();
     if (numVertices == 0) return true;
 
     bool *visitados = new bool[numVertices];
@@ -198,7 +198,7 @@ void GrafoLista::auxEhConexo(bool *visitados, Vertice *v) {
 }
 
 bool GrafoLista::ehCiclico() {
-    int numVertices = getOrdem();
+    int numVertices = get_ordem();
     if (numVertices == 0) return false;
 
     bool* visitados = new bool[numVertices];
@@ -237,15 +237,15 @@ bool GrafoLista::auxEhCiclico(Vertice* v, bool* visitados, Vertice* pai) {
     return false;
 }
 
-bool GrafoLista::ehArvore() {
+bool GrafoLista::eh_arvore() {
     if (ehConexo() && !ehCiclico()) {
         return true;
     }
     return false;
 }
 
-int GrafoLista::nConexo() {
-    int numVertices = getOrdem();
+int GrafoLista::n_conexo() {
+    int numVertices = get_ordem();
     if (numVertices == 0) return 0;
 
     bool *visitados = new bool[numVertices];
@@ -275,4 +275,65 @@ void GrafoLista::auxNConexo(bool *visitados, Vertice *v) {
             auxNConexo(visitados, adj);
         }
     }
+}
+
+void GrafoLista::novo_grafo() {
+    ifstream arquivo;
+    arquivo.open("../../input/Descricao.txt", ios::in);
+
+    if (!arquivo.is_open()) {
+        cout << "Erro ao abrir o arquivo!" << endl;
+        exit(1);
+    }
+
+    int numVertices, direcionado, ponderado_nos, ponderado_arestas;
+    arquivo >> numVertices >> direcionado >> ponderado_nos >> ponderado_arestas;
+
+    this->direcionado = direcionado;
+
+    // Criar vértices
+    if (ponderado_nos == 1) {
+        int peso;
+        for (int i = 0; i < numVertices; ++i) {
+            arquivo >> peso;
+            inserirVertice(i+1, peso);
+        }
+    } else {
+        for (int i = 0; i < numVertices; ++i) {
+            inserirVertice(i+1, 1);
+        }
+    }
+
+    imprimirVertices();
+
+    // Criar arestas
+    int origem, destino, peso;
+    while (arquivo >> origem >> destino) {
+        Vertice *v = raizVertice;
+        Vertice *inicio = nullptr;
+        Vertice *fim = nullptr;
+        while (v != nullptr) {
+            if (v->getId() == origem) {
+                inicio = v;
+            }
+            if (v->getId() == destino) {
+                fim = v;
+            }
+            v = v->getProx();
+        }
+
+        if (inicio != nullptr && fim != nullptr) {
+            if (ponderado_arestas == 1) {
+                arquivo >> peso;
+                inserirAresta(inicio, fim, peso);
+            } else {
+                inserirAresta(inicio, fim, 1);
+            }
+        } else {
+            cout << "Erro ao inserir arquivo" << endl;
+        }
+    }
+
+    //imprimirArestas();
+    arquivo.close();
 }
