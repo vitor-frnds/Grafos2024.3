@@ -24,25 +24,9 @@ GrafoLista::~GrafoLista() {
     }
 }
 
-void GrafoLista::setRaizVertice(Vertice *v) {
-    raizVertice = v;
-}
-
-Vertice * GrafoLista::getRaizVertice() {
-    return raizVertice;
-}
-
-void GrafoLista::setRaizAresta(Aresta *a) {
-    raizAresta = a;
-}
-
-Aresta * GrafoLista::getRaizAresta() {
-    return raizAresta;
-}
-
-void GrafoLista::carregaGrafo() {
+void GrafoLista::carrega_grafo() {
     ifstream arquivo;
-    arquivo.open("C:/Users/henri/CLionProjects/trabalho-grafos/Grafo.txt", ios::in);
+    arquivo.open("../../input/Grafo.txt", ios::in);
 
     if (!arquivo.is_open()) {
         cout << "Erro ao abrir o arquivo!" << endl;
@@ -97,7 +81,7 @@ void GrafoLista::carregaGrafo() {
         }
     }
 
-    imprimirArestas();
+    //imprimirArestas();
     arquivo.close();
 }
 
@@ -113,8 +97,6 @@ void GrafoLista::inserirVertice(int id, int peso) {
 void GrafoLista::inserirAresta(Vertice *inicio, Vertice *fim, int peso) {
     if (inicio == fim) {
         cout << "Erro: o grafo não permite inserir laço." << endl;
-    } else if (inicio->getArestas() != nullptr) {
-        cout << "Erro: o grafo não permite arestas múltiplas." << endl;
     } else {
         // Criando aresta
         Aresta* a = new Aresta();
@@ -123,7 +105,10 @@ void GrafoLista::inserirAresta(Vertice *inicio, Vertice *fim, int peso) {
         a->setFim(fim);
 
         // Adicionando ponteiro da aresta no vértice
-        inicio->setArestas(a);
+        inicio->inserirAresta(a);
+        if (!eh_direcionado()) {
+            fim->inserirAresta(a);
+        }
 
         // Adicionando aresta na lista
         if (raizAresta != nullptr) {
@@ -131,7 +116,7 @@ void GrafoLista::inserirAresta(Vertice *inicio, Vertice *fim, int peso) {
         }
         raizAresta = a;
 
-        cout << "Aresta inserida: " << endl;
+        cout << "Aresta inserida: " << a->getInicio()->getId() << " -> " << a->getFim()->getId() << endl;
     }
 }
 
@@ -154,7 +139,7 @@ void GrafoLista::imprimirArestas() {
     }
 }
 
-bool GrafoLista::arestaPonderada() {
+bool GrafoLista::aresta_ponderada() {
     Aresta *a = raizAresta;
     while (a != nullptr) {
         if (a->getPeso() != 1) {
@@ -165,7 +150,7 @@ bool GrafoLista::arestaPonderada() {
     return false;
 }
 
-int GrafoLista::getOrdem() {
+int GrafoLista::get_ordem() {
     Vertice* v = raizVertice;
     int ordem = 0;
     while (v != nullptr) {
@@ -175,31 +160,138 @@ int GrafoLista::getOrdem() {
     return ordem;
 }
 
-bool GrafoLista::ehConexo() {
-    int tam = getOrdem();
-    Vertice* visitados[tam];
-    visitados[0] = raizVertice;
+bool GrafoLista::eh_direcionado() {
+    return direcionado;
+}
 
-    int i = 0;
-    while (i < tam || visitados[i]->getArestas() != nullptr) {
-        Vertice* v = visitados[i]->getArestas()->getFim();
-        for (int j = 0; j <= i; j++) {
-            if (visitados[j] == v) {
-                // Como não suporta aresta múltipla então já posso dizer que não é conexo
-                return false;
-            }
-        }
-        visitados[i+1] = v;
-        i++;
+bool GrafoLista::ehConexo() {
+    int numVertices = get_ordem();
+    if (numVertices == 0) return true;
+
+    bool *visitados = new bool[numVertices];
+    for (int i = 0; i < numVertices; ++i) {
+        visitados[i] = false;
     }
 
-    if (i+1 != tam) {
-        return false;
-    } else {
-        return true;
+    auxEhConexo(visitados, raizVertice);
+
+    for (int i = 0; i < numVertices; ++i) {
+        if (!visitados[i]) {
+            delete[] visitados;
+            return false;
+        }
+    }
+
+    delete[] visitados;
+    return true;
+}
+
+void GrafoLista::auxEhConexo(bool *visitados, Vertice *v) {
+    visitados[v->getId() - 1] = true;
+    for (int i = 0; i < v->totalArestas(); ++i) {
+        Aresta* a = v->getAresta(i);
+        Vertice* adj = a->getFim();
+        if (!visitados[adj->getId() - 1]) {
+            auxEhConexo(visitados, adj);
+        }
     }
 }
 
-bool GrafoLista::ehDirecionado() {
-    return direcionado;
+bool GrafoLista::ehCiclico() {
+    int numVertices = get_ordem();
+    if (numVertices == 0) return false;
+
+    bool* visitados = new bool[numVertices];
+    for (int i = 0; i < numVertices; ++i) {
+        visitados[i] = false;
+    }
+
+    for (Vertice* v = raizVertice; v != nullptr; v = v->getProx()) {
+        if (!visitados[v->getId() - 1]) {
+            if (auxEhCiclico(v, visitados, nullptr)) {
+                delete[] visitados;
+                return true;
+            }
+        }
+    }
+
+    delete[] visitados;
+    return false;
+}
+
+bool GrafoLista::auxEhCiclico(Vertice* v, bool* visitados, Vertice* pai) {
+    visitados[v->getId() - 1] = true;
+
+    for (int i = 0; i < v->totalArestas(); ++i) {
+        Aresta* a = v->getAresta(i);
+        Vertice* adj = a->getFim();
+
+        if (!visitados[adj->getId() - 1]) {
+            if (auxEhCiclico(adj, visitados, v)) {
+                return true;
+            }
+        } else if (adj != pai) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool GrafoLista::eh_arvore() {
+    if (ehConexo() && !ehCiclico()) {
+        return true;
+    }
+    return false;
+}
+
+int GrafoLista::n_conexo() {
+    int numVertices = get_ordem();
+    if (numVertices == 0) return 0;
+
+    bool *visitados = new bool[numVertices];
+    for (int i = 0; i < numVertices; ++i) {
+        visitados[i] = false;
+    }
+
+    int componentesConexas = 0;
+    for (Vertice* v = raizVertice; v != nullptr; v = v->getProx()) {
+        if (!visitados[v->getId() - 1]) {
+            auxNConexo(visitados, v);
+            componentesConexas++;
+        }
+    }
+
+    delete[] visitados;
+    return componentesConexas;
+}
+
+
+void GrafoLista::auxNConexo(bool *visitados, Vertice *v) {
+    visitados[v->getId() - 1] = true;
+    for (int i = 0; i < v->totalArestas(); ++i) {
+        Aresta* a = v->getAresta(i);
+        Vertice* adj = a->getFim();
+        if (!visitados[adj->getId() - 1]) {
+            auxNConexo(visitados, adj);
+        }
+    }
+}
+
+void GrafoLista::novo_grafo() {
+    ifstream arquivo;
+    arquivo.open("../../input/Descricao.txt", ios::in);
+
+    if (!arquivo.is_open()) {
+        cout << "Erro ao abrir o arquivo!" << endl;
+        exit(1);
+    }
+
+    int grau, ordem, componentes_conexas, aresta_ponte, vertice_articulado;
+    bool direcionado, vertice_ponderado, aresta_ponderada, completo, bipartido, arvore;
+
+    arquivo >> grau >> ordem >> direcionado >> componentes_conexas >> vertice_ponderado >> aresta_ponderada >>
+    completo >> bipartido >> arvore >> aresta_ponte >> vertice_articulado;
+
+
+    arquivo.close();
 }

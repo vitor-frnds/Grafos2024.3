@@ -8,9 +8,13 @@ Vertice::Vertice(int _id) {
     peso = 1;
     prox = nullptr;
     arestas = nullptr;
+    n = 0;
+    tam = 10;
+    arestas = new Aresta*[tam];
 }
 
 Vertice::~Vertice() {
+    delete [] arestas;
 }
 
 void Vertice::setPeso(int val) {
@@ -33,10 +37,34 @@ int Vertice::getId() {
     return id;
 }
 
-void Vertice::setArestas(Aresta *a) {
-    arestas = a;
+Aresta* Vertice::getAresta(int i) {
+    if (i >= 0 && i < n) {
+        return arestas[i];
+    }
+    else {
+        cout << "Erro get: indice invalido." << endl;
+        exit(1);
+    }
 }
 
-Aresta * Vertice::getArestas() {
-    return arestas;
+void Vertice::inserirAresta(Aresta *a) {
+    if (n >= tam) {
+        aumentarVetor();
+    }
+    arestas[n] = a;
+    n++;
+}
+
+void Vertice::aumentarVetor() {
+    Aresta **a = new Aresta*[tam+10];
+    for (int i = 0; i < tam; i++) {
+        a[i] = arestas[i];
+    }
+    delete [] arestas;
+    arestas = a;
+    tam += 10;
+}
+
+int Vertice::totalArestas() {
+    return n;
 }
