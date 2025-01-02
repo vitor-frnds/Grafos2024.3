@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Grafomatriz.h"
-#include "Grafolista.h"
+#include "GrafoMatriz.h"
+//#include "GrafoLista.h"
 
 using namespace std;
 
@@ -48,11 +48,11 @@ void criar_salvar(string estrutura, string descricao, string arquivo_saida) {
     if (estrutura == "-m") {
         GrafoMatriz grafo(numVertices, direcionado);
         grafo.novo_grafo(descricao);
-        grafo.salva_grafo(arquivo_saida);
+        //grafo.salva_grafo(arquivo_saida);
     } else if (estrutura == "-l") {
-        GrafoLista grafo(numVertices, direcionado);
-        grafo.novo_grafo(descricao);
-        grafo.salva_grafo(arquivo_saida);
+        //GrafoLista grafo(numVertices, direcionado);
+        //grafo.novo_grafo(descricao);
+        //grafo.salva_grafo(arquivo_saida);
     } else {
         cerr << "Estrutura inválida!" << endl;
         cout << "Estrturura inválida!" << endl;

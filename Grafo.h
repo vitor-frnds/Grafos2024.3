@@ -1,5 +1,6 @@
-#ifndef GRAFO_H
+/*#ifndef GRAFO_H
 #define GRAFO_H
+#include <string>
 
 // Classe abstrata Grafo
 class Grafo {
@@ -19,7 +20,7 @@ public:
     //- função que indica a quantidade de componentes conexas
     virtual int n_conexo() = 0;
     //- função que retorna o grau do grafo
-    virtual int get_grau() = 0;
+    virtual int get_grau(int vertice) = 0;
     //função que retorna a ordem do grafo
     virtual int get_ordem() = 0;
     //função que retorna se o grafo é direcionado ou não
@@ -37,9 +38,41 @@ public:
     //função que diz se existe ao menos uma aresta ponte
     virtual bool possui_ponte() = 0;
     //- função que lê um arquivo txt com um grafo e carrega ele
-    virtual void carrega_grafo() = 0;
+    virtual void carrega_grafo(const std::string& arquivo) = 0;
     //- função que lê um arquivo txt de configuracao e gera um grafo aleatorio
-    virtual void novo_grafo() = 0;
+    virtual void novo_grafo(const std::string& arquivo) = 0;
+    
+};
+
+#endif*/
+#ifndef GRAFO_H
+#define GRAFO_H
+
+#include <string>
+
+class Grafo {
+protected:
+    int numVertices;
+    bool direcionado;
+
+public:
+    Grafo(); // Declaração do construtor padrão
+    Grafo(int numVertices, bool direcionado);
+    virtual ~Grafo() = default;
+
+    virtual bool eh_bipartido() = 0;
+    virtual int n_conexo() = 0;
+    virtual int get_grau(int vertice) = 0;
+    virtual int get_ordem() = 0;
+    virtual bool eh_direcionado() = 0;
+    virtual bool vertice_ponderado() = 0;
+    virtual bool aresta_ponderada() = 0;
+    virtual bool eh_completo() = 0;
+    virtual bool eh_arvore() = 0;
+    virtual bool possui_articulacao() = 0;
+    virtual bool possui_ponte() = 0;
+    virtual void carrega_grafo(const std::string& arquivo) = 0;
+    virtual void novo_grafo(const std::string& arquivo) = 0;
 };
 
 #endif
