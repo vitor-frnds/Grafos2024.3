@@ -116,62 +116,42 @@ GrafoMatriz::GrafoMatriz(int numVertices, bool direcionado = false) {
         return (n_conexo() == 1 && contarArestas() == numVertices - 1);
     }
 
-    bool GrafoMatriz::possui_articulacao() {
-        for (int u = 0; u < numVertices; u++) {
-            vector<bool> visitado(numVertices, false);
-
-            auto BuscaProfundidade = [&](int v, auto& BuscaProfundidade_ref) -> void {
-                visitado[v] = true;
-                for (int w = 0; w < numVertices; w++) {
-                    if (w != u && matrizAdj[v][w] && !visitado[w]) {
-                        BuscaProfundidade_ref(w, dfs_ref);
-                    }
-                }
-            };
-
-            int componenteInicial = 0;
-            for (int i = 0; i < numVertices; i++) {
-                if (i != u && !visitado[i]) {
-                    componenteInicial++;
-                    dfs(i, dfs);
-                }
-            }
-
-            if (componenteInicial > 1) {
-                return true;
-            }
+    void GrafoMatriz::carrega_grafo(const string& arquivo) {
+        ifstream file(arquivo);
+        if (!file.is_open()) {
+            cerr << "Erro ao abrir o arquivo." << endl;
+            return;
         }
-        return false;
+
+        file >> numVertices;
+        matrizAdj.resize(numVertices, vector<int>(numVertices, 0));
+
+        int u, v, peso;
+        while (file >> u >> v >> peso) {
+            adicionaAresta(u, v, peso);
+        }
+        file.close();
     }
 
-    bool GrafoMatriz::possui_ponte() {
-        for (int u = 0; u < numVertices; u++) {
-            for (int v = 0; v < numVertices; v++) {
-                if (matrizAdj[u][v]) {
-                    matrizAdj[u][v] = matrizAdj[v][u] = 0;
-
-                    if (n_conexo() > 1) {
-                        matrizAdj[u][v] = matrizAdj[v][u] = 1;
-                        return true;
-                    }
-
-                    matrizAdj[u][v] = matrizAdj[v][u] = 1;
-                }
-            }
+    void GrafoMatriz::novo_grafo(const string& arquivoConfig) {
+        ifstream file(arquivoConfig);
+        if (!file.is_open()) {
+            cerr << "Erro ao abrir o arquivo." << endl;
+            return;
         }
-        return false;
-    }
 
+        int arestas;
+        file >> numVertices >> arestas;
+        matrizAdj.assign(numVertices, vector<int>(numVertices, 0));
 
-    int GrafoMatriz::contarArestas() {
-        int arestas = 0;
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                if (matrizAdj[i][j]) {
-                    arestas++;
-                }
-            }
+        srand(time(0));
+        for (int i = 0; i < arestas; i++) {
+            int u = rand() % numVertices;
+            int v = rand() % numVertices;
+            int peso = 1 + rand() % 10;
+
+            adicionaAresta(u, v, peso);
         }
-        return direcionado ? arestas : arestas / 2;
+        file.close();
     }
 }
