@@ -15,7 +15,7 @@ class GrafoMatriz : public Grafo{
         GrafoMatriz(int numVertices, bool direcionado = false);
 
         //função força bruta que indica se o grafo é bipartido ou não
-        virtual int eh_bipartido() override;
+        virtual bool eh_bipartido() override;
 
         //- função que indica a quantidade de componentes conexas
         virtual int n_conexo() override;
