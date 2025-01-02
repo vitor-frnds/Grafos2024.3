@@ -57,23 +57,22 @@ GrafoMatriz::GrafoMatriz(int numVertices, bool direcionado = false) {
         return true;
     }
 
+    void BuscaProfundidade(int u, vector<bool>& visitado, const vector<vector<int>>& matrizAdj) {
+        visitado[u] = true;
+        for (int v = 0; v < matrizAdj.size(); v++) {
+            if (matrizAdj[u][v] && !visitado[v]) {
+                BuscaProfundidade(v, visitado, matrizAdj);
+            }
+        }
+    }
     int GrafoMatriz::n_conexo() {
         vector<bool> visitado(numVertices, false);
         int componentes = 0;
 
-        auto dfs = [&](int u, auto& dfs_ref) -> void {
-            visitado[u] = true;
-            for (int v = 0; v < numVertices; v++) {
-                if (matrizAdj[u][v] && !visitado[v]) {
-                    dfs_ref(v, dfs_ref);
-                }
-            }
-        };
-
         for (int i = 0; i < numVertices; i++) {
             if (!visitado[i]) {
                 componentes++;
-                dfs(i, dfs);
+                BuscaProfundidade(i, visitado, matrizAdj);
             }
         }
 
@@ -111,7 +110,8 @@ GrafoMatriz::GrafoMatriz(int numVertices, bool direcionado = false) {
         return true;
     }
 
-    //voltar aqui depois
+    //para ser uma árvore preciso ter apenas um componente conexo
+    //e arestas = vertice-1
     bool GrafoMatriz::eh_arvore() {
         return (n_conexo() == 1 && contarArestas() == numVertices - 1);
     }
@@ -120,11 +120,11 @@ GrafoMatriz::GrafoMatriz(int numVertices, bool direcionado = false) {
         for (int u = 0; u < numVertices; u++) {
             vector<bool> visitado(numVertices, false);
 
-            auto dfs = [&](int v, auto& dfs_ref) -> void {
+            auto BuscaProfundidade = [&](int v, auto& BuscaProfundidade_ref) -> void {
                 visitado[v] = true;
                 for (int w = 0; w < numVertices; w++) {
                     if (w != u && matrizAdj[v][w] && !visitado[w]) {
-                        dfs_ref(w, dfs_ref);
+                        BuscaProfundidade_ref(w, dfs_ref);
                     }
                 }
             };
