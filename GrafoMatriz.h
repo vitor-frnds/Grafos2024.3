@@ -2,19 +2,20 @@
 #define GRAFOMATRIZ_H
 
 #include "Grafo.h"
-#include <vector>
 #include <string>
 
 class GrafoMatriz : public Grafo {
 private:
     static const int MAX_VERTICES = 100;
     int matriz[MAX_VERTICES][MAX_VERTICES];
-
-    void BuscaProfundidade(int u, std::vector<bool>& visitado);
+    int numVertices;
+    bool direcionado;
 
 public:
-    GrafoMatriz(int numVertices, bool direcionado = false);
+    GrafoMatriz(int vertices, bool dir);
 
+    void adicionaAresta(int u, int v, int peso);
+    virtual void carrega_grafo(const std::string& arquivo) override;
     virtual bool eh_bipartido() override;
     virtual int n_conexo() override;
     virtual int get_grau(int vertice) override;
@@ -26,11 +27,6 @@ public:
     virtual bool aresta_ponderada() override;
     virtual bool possui_articulacao() override;
     virtual bool possui_ponte() override;
-    virtual void carrega_grafo(const std::string& arquivo) override;
-    virtual void novo_grafo(const std::string& arquivo) override;
-
-    void adicionaAresta(int u, int v, int peso = 1);
-    int contarArestas() const;
 };
 
 #endif

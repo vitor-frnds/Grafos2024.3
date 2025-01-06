@@ -6,13 +6,13 @@
 
 using namespace std;
 
-void imprimir_descricao(Grafo* grafo) {
+/*void imprimir_descricao(Grafo* grafo) {
     cout << "Grau: " << grafo->get_grau(1) << endl;  // Exemplo com vértice 1
     cout << "Ordem: " << grafo->get_ordem() << endl;
     cout << "Direcionado: " << (grafo->eh_direcionado() ? "Sim" : "Não") << endl;
     cout << "Componentes conexas: " << grafo->n_conexo() << endl;
-    //cout << "Vertices ponderados: " << (grafo->vertice_ponderado() ? "Sim" : "Não") << endl;
-    //cout << "Arestas ponderadas: " << (grafo->aresta_ponderada() ? "Sim" : "Não") << endl;
+    cout << "Vertices ponderados: " << (grafo->vertice_ponderado() ? "Sim" : "Não") << endl;
+    cout << "Arestas ponderadas: " << (grafo->aresta_ponderada() ? "Sim" : "Não") << endl;
     cout << "Completo: " << (grafo->eh_completo() ? "Sim" : "Não") << endl;
     cout << "Bipartido: " << (grafo->eh_bipartido() ? "Sim" : "Não") << endl;
     cout << "Arvore: " << (grafo->eh_arvore() ? "Sim" : "Não") << endl;
@@ -25,11 +25,11 @@ void carregar_descrever(string estrutura, string arquivo) {
         GrafoMatriz grafo(0, false);
         grafo.carrega_grafo(arquivo);
         imprimir_descricao(&grafo);
-    } /*else if (estrutura == "-l") {
+    } else if (estrutura == "-l") {
         GrafoLista grafo(0, false);
         grafo.carrega_grafo(arquivo);
         imprimir_descricao(&grafo);
-    } */else {
+    }else {
         cerr << "Estrutura inválida!" << endl;
         cout << "Estrturura inválida!" << endl;
     }
@@ -61,7 +61,7 @@ void criar_salvar(string estrutura, string descricao, string arquivo_saida) {
 
 int main(int argc, char* argv[]) {
     if (argc < 4) {
-        cerr << "Uso: main.out -d|-c -m|-l <arquivo> [arquivo_saida]" << endl;
+        cout << "Uso: main.out -d|-c -m|-l <arquivo> [arquivo_saida]" << endl;
         return 1;
     }
 
@@ -70,17 +70,40 @@ int main(int argc, char* argv[]) {
     string arquivo = argv[3];
 
     if (operacao == "-d") {
-        carregar_descrever(estrutura, arquivo);
+        cout << "-d";
+        //carregar_descrever(estrutura, arquivo);
     } else if (operacao == "-c") {
         if (argc < 5) {
-            cerr << "Faltando arquivo de saída para criação!" << endl;
+            cout << "Faltando arquivo de saída para criação!" << endl;
             return 1;
         }
         string arquivo_saida = argv[4];
         criar_salvar(estrutura, arquivo, arquivo_saida);
     } else {
-        cerr << "Operação inválida!" << endl;
+        cout << "Operação inválida!" << endl;
     }
 
     return 0;
+}*/
+
+#include <iostream>
+#include "GrafoMatriz.h"
+#include "GrafoMatriz.h"
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+int main() {
+    // Criar um grafo com 4 vértices, direcionado
+    GrafoMatriz grafo(4, true);
+
+    // Carregar o grafo a partir de um arquivo
+    grafo.carrega_grafo("grafo.txt");
+
+    // Testar função de descrição do grafo
+    cout << "O grafo é bipartido? " << (grafo.eh_bipartido() ? "Sim" : "Não") << endl;
+
+    return 0;
 }
+

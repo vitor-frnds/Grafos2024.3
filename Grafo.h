@@ -72,7 +72,7 @@ public:
     virtual bool possui_articulacao() = 0;
     virtual bool possui_ponte() = 0;
     virtual void carrega_grafo(const std::string& arquivo) = 0;
-    virtual void novo_grafo(const std::string& arquivo) = 0;
+    //rtual void novo_grafo(const std::string& arquivo) = 0;
 };
 
 #endif
