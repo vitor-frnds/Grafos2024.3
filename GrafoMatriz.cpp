@@ -289,19 +289,21 @@ bool GrafoMatriz::possui_articulacao() {
 bool GrafoMatriz::possui_ponte() {
     return false;  // Implementação fictícia; ajuste conforme necessário
 }
-void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
-    std::cout << "Carregando grafo do arquivo " << arquivo << "..." << endl;
-    std::ifstream arquivoEntrada(arquivo, ios::in);
+void GrafoMatriz::carrega_grafo() {
+    ifstream arquivo;
+    //cout << "Carregando grafo do arquivo " << arquivo << "..." << endl;
+    arquivo.open("Grafo.txt", ios::in);
 
-    if (!arquivoEntrada.is_open()) {
+    if (!arquivo.is_open()) {
         std::cout << "Erro ao abrir o arquivo!" << endl;
         exit(1);
     }
 
-    std::cout << "Arquivo aberto com sucesso!" << endl;
+    cout << "Arquivo aberto com sucesso!" << endl;
 
+    
     int numVertices, direcionado, ponderado_nos, ponderado_arestas;
-    arquivoEntrada >> numVertices >> direcionado >> ponderado_nos >> ponderado_arestas;
+    arquivo >> numVertices >> direcionado >> ponderado_nos >> ponderado_arestas;
     std::cout<< "numVertices: "<<numVertices<<endl;
     std::cout<< "direcionado: "<<direcionado<<endl;
     std::cout<< "ponderado_nos: "<<ponderado_nos<<endl;
@@ -320,12 +322,12 @@ void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
     //peso dos vertices
     int pesosVertices[numVertices];
     if (ponderado_nos == 1) {
-        std::cout << "Peso dos vértices:" << endl;
+        cout << "Peso dos vértices:" << endl;
         for (int i = 0; i < numVertices; ++i) {
-            arquivoEntrada >> pesosVertices[i];
+            arquivo >> pesosVertices[i];
         }
     } else {
-        std::cout<< "Não há pesos nos vértices"<<endl;
+        cout<< "Não há pesos nos vértices"<<endl;
         for (int i = 0; i < numVertices; ++i) {
             pesosVertices[i] = 1;
         }
@@ -333,10 +335,10 @@ void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
 
     //ler arestas
     int origem, destino, pesoAresta;
-    while (arquivoEntrada >> origem >> destino) {
+    while (arquivo >> origem >> destino) {
     
         if (ponderado_arestas == 1) {
-            arquivoEntrada >> pesoAresta;
+            arquivo >> pesoAresta;
         } else {
             pesoAresta = 1;
         }
@@ -347,11 +349,11 @@ void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
         }
     }
 
-    arquivoEntrada.close();
-    std::cout<< "Arquivo fechado com sucesso"<<endl;
+    arquivo.close();
+    cout<< "Arquivo fechado com sucesso"<<endl;
     // Exibir o grafo carregado
     //cout << "Grafo carregado com sucesso!" << endl;
-    std::cout << "Matriz de adjacência:" << endl;
+    cout << "Matriz de adjacência:" << endl;
     for (int i = 0; i < numVertices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
             std::cout << matriz[i][j] << " ";

@@ -16,7 +16,7 @@ public:
     int contarArestas();
     void BuscaProfundidade(int u, bool visitado[]);
     void adicionaAresta(int u, int v, int peso);
-    virtual void carrega_grafo(const std::string& arquivo) override;
+    virtual void carrega_grafo() override;
     virtual bool eh_bipartido() override;
     virtual int n_conexo() override;
     virtual int get_grau(int vertice) override;
