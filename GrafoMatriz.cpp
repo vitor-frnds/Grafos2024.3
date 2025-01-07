@@ -159,13 +159,13 @@ void GrafoMatriz::adicionaAresta(int u, int v, int peso) {
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include <vector>
 
 using std::queue;
 using std::ifstream;
 using std::string;
 using std::cout;
 using std::endl;
+using std::ios;
 
 GrafoMatriz::GrafoMatriz(int vertices, bool dir) : numVertices(vertices), direcionado(dir) {
     for (int i = 0; i < MAX_VERTICES; i++) {
@@ -174,6 +174,34 @@ GrafoMatriz::GrafoMatriz(int vertices, bool dir) : numVertices(vertices), direci
         }
     }
 }
+bool GrafoMatriz::eh_bipartido() {
+    int cores[MAX_VERTICES];
+    for (int i = 0; i < numVertices; i++) {
+        cores[i] = -1; //inicializa as cores
+    }
+
+    int fila[MAX_VERTICES], inicio = 0, fim = 0;
+    for(int i=0; i<numVertices; i++){
+        if(cores[i]==-1){
+            cores[i] = 0;
+            fila[fim++] = i;
+            while(inicio<fim){
+                int u = fila[inicio++];
+                for(int v=0; v<numVertices; v++){
+                    if(matriz[u][v]){
+                        if(cores[v]==-1){
+                            cores[v] = 1 - cores[u];
+                            fila[fim++] = v;
+                        }else if(cores[v]==cores[u]){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
 
 void GrafoMatriz::adicionaAresta(int u, int v, int peso) {
     matriz[u - 1][v - 1] = peso; // Ajuste de índice para 1-based input
@@ -181,7 +209,7 @@ void GrafoMatriz::adicionaAresta(int u, int v, int peso) {
         matriz[v - 1][u - 1] = peso; // Se não for direcionado
     }
 }
-void GrafoMatriz::BuscaProfundidade(int u, std::vector<bool>& visitado) {
+void GrafoMatriz::BuscaProfundidade(int u, bool visitado[]) {
     visitado[u] = true;
     for (int v = 0; v < numVertices; v++) {
         if (matriz[u][v] && !visitado[v]) {
@@ -189,40 +217,9 @@ void GrafoMatriz::BuscaProfundidade(int u, std::vector<bool>& visitado) {
         }
     }
 }
-void GrafoMatriz::carrega_grafo(const std::string& caminhoArquivo) {
-    ifstream file(caminhoArquivo);
-    if (!file.is_open()) {
-        cout << "Erro ao abrir o arquivo!" << endl;
-        exit(1);
-    }
 
-    file >> numVertices >> direcionado;
-
-    // Inicializa a matriz
-    for (int i = 0; i < MAX_VERTICES; i++) {
-        for (int j = 0; j < MAX_VERTICES; j++) {
-            matriz[i][j] = 0;
-        }
-    }
-
-    int origem, destino, peso;
-    while (file >> origem >> destino >> peso) {
-        adicionaAresta(origem, destino, peso);
-    }
-
-    file.close();
-
-    // Exibir a matriz carregada
-    cout << "Matriz de adjacência:" << endl;
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
-            cout << matriz[i][j] << " ";
-        }
-        cout << endl;
-    }
-}
 int GrafoMatriz::n_conexo() {
-    std::vector<bool> visitado(numVertices, false);
+    bool visitado[MAX_VERTICES] = {false};
     int componentes = 0;
 
     for (int i = 0; i < numVertices; i++) {
@@ -292,27 +289,75 @@ bool GrafoMatriz::possui_articulacao() {
 bool GrafoMatriz::possui_ponte() {
     return false;  // Implementação fictícia; ajuste conforme necessário
 }
-
 void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
-    ifstream file(arquivo);
-    if (!file.is_open()) {
-        std::cerr << "Erro ao abrir o arquivo." << std::endl;
-        return;
+    ifstream arquivoEntrada(arquivo, ios::in);
+
+    if (!arquivoEntrada.is_open()) {
+        cout << "Erro ao abrir o arquivo!" << endl;
+        exit(1);
     }
 
-    file >> numVertices;
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
-            matriz[i][j] = 0;
+    int numVertices, direcionado, ponderado_nos, ponderado_arestas;
+    arquivoEntrada >> numVertices >> direcionado >> ponderado_nos >> ponderado_arestas;
+
+    this->numVertices = numVertices;
+    this->direcionado = direcionado;
+
+    //inicilizando matriz de adjacência
+    for (int i = 0; i < numVertices; ++i) {
+        for (int j = 0; j < numVertices; ++j) {
+            matriz[i][j] = 0; //0 arestas
         }
     }
 
-    int u, v, peso;
-    while (file >> u >> v >> peso) {
-        adicionaAresta(u, v, peso);
+    //peso dos vertices
+    int pesosVertices[numVertices];
+    if (ponderado_nos == 1) {
+        for (int i = 0; i < numVertices; ++i) {
+            arquivoEntrada >> pesosVertices[i];
+        }
+    } else {
+        for (int i = 0; i < numVertices; ++i) {
+            pesosVertices[i] = 1;
+        }
     }
-    file.close();
+
+    //ler arestas
+    int origem, destino, pesoAresta;
+    while (arquivoEntrada >> origem >> destino) {
+        if (ponderado_arestas == 1) {
+            arquivoEntrada >> pesoAresta;
+        } else {
+            pesoAresta = 1;
+        }
+
+        matriz[origem - 1][destino - 1] = pesoAresta; //insere na matriz de adjacência
+        if (!direcionado) {
+            matriz[destino - 1][origem - 1] = pesoAresta; // Se não for direcionado, insere na outra direção
+        }
+    }
+
+    arquivoEntrada.close();
+
+    // Exibir o grafo carregado
+    //cout << "Grafo carregado com sucesso!" << endl;
+    cout << "Matriz de adjacência:" << endl;
+    for (int i = 0; i < numVertices; ++i) {
+        for (int j = 0; j < numVertices; ++j) {
+            cout << matriz[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    if (ponderado_nos == 1) {
+        cout << "Pesos dos vértices:" << endl;
+        for (int i = 0; i < numVertices; ++i) {
+            cout << "Vértice " << (i + 1) << ": " << pesosVertices[i] << endl;
+        }
+    }
 }
+
+
 
 /*void GrafoMatriz::novo_grafo(const std::string& arquivo) {
     srand(time(0));

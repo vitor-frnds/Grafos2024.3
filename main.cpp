@@ -102,7 +102,7 @@ int main() {
     grafo.carrega_grafo("grafo.txt");
 
     // Testar função de descrição do grafo
-    cout << "O grafo é bipartido? " << (grafo.eh_bipartido() ? "Sim" : "Não") << endl;
+    //cout << "O grafo é bipartido? " << (grafo.eh_bipartido() ? "Sim" : "Não") << endl;
 
     return 0;
 }
