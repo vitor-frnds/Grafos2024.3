@@ -1,5 +1,5 @@
-3 1 1 1 // numero de nos, direcionado, ponderado vertices, ponderado arestas
-2 3 7 // peso dos nos (apenas se ponderado nos vertices)
-1 2 6 // origem, destino, peso (peso apenas se ponderado na aresta)
-2 1 4 // origem, destino, peso (peso apenas se ponderado na aresta)
-2 3 -5 // origem, destino, peso (peso apenas se ponderado na aresta)
+3 1 1 1
+2 3 7
+1 2 6
+2 1 4
+2 3 -5

@@ -87,23 +87,26 @@ int main(int argc, char* argv[]) {
 }*/
 
 #include <iostream>
-#include "GrafoMatriz.h"
-#include "GrafoMatriz.h"
-#include <iostream>
-
-using std::cout;
-using std::endl;
+#include <fstream>
+using namespace std;
 
 int main() {
-    // Criar um grafo com 4 vértices, direcionado
-    GrafoMatriz grafo(4, true);
+    cout << "Abrindo arquivo..." << endl;
+    ifstream arquivo("Grafo.txt");
 
-    // Carregar o grafo a partir de um arquivo
-    grafo.carrega_grafo("grafo.txt");
+    if (!arquivo.is_open()) {
+        cout << "Erro ao abrir o arquivo!" << endl;
+        return 1;
+    }
 
-    // Testar função de descrição do grafo
-    //cout << "O grafo é bipartido? " << (grafo.eh_bipartido() ? "Sim" : "Não") << endl;
+    cout << "Arquivo aberto com sucesso!" << endl;
 
+    string linha;
+    while (getline(arquivo, linha)) {
+        cout << linha << endl;
+    }
+
+    arquivo.close();
     return 0;
 }
 

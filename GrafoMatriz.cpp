@@ -160,7 +160,7 @@ void GrafoMatriz::adicionaAresta(int u, int v, int peso) {
 #include <fstream>
 #include <cstdlib>
 
-using std::queue;
+//using std::queue;
 using std::ifstream;
 using std::string;
 using std::cout;
@@ -170,7 +170,7 @@ using std::ios;
 GrafoMatriz::GrafoMatriz(int vertices, bool dir) : numVertices(vertices), direcionado(dir) {
     for (int i = 0; i < MAX_VERTICES; i++) {
         for (int j = 0; j < MAX_VERTICES; j++) {
-            matriz[i][j] = 0; // Inicializa a matriz de adjacência
+            matriz[i][j] = 0; //inicializa a matriz de adjacência
         }
     }
 }
@@ -204,9 +204,9 @@ bool GrafoMatriz::eh_bipartido() {
 }
 
 void GrafoMatriz::adicionaAresta(int u, int v, int peso) {
-    matriz[u - 1][v - 1] = peso; // Ajuste de índice para 1-based input
+    matriz[u - 1][v - 1] = peso; //ajuste de índice para 1-based input
     if (!direcionado) {
-        matriz[v - 1][u - 1] = peso; // Se não for direcionado
+        matriz[v - 1][u - 1] = peso; //se não for direcionado
     }
 }
 void GrafoMatriz::BuscaProfundidade(int u, bool visitado[]) {
@@ -258,7 +258,7 @@ bool GrafoMatriz::eh_completo() {
     return true;
 }
 
-int GrafoMatriz::contarArestas() const {
+int GrafoMatriz::contarArestas() {
     int arestas = 0;
     for (int i = 0; i < numVertices; i++) {
         for (int j = 0; j < numVertices; j++) {
@@ -290,15 +290,22 @@ bool GrafoMatriz::possui_ponte() {
     return false;  // Implementação fictícia; ajuste conforme necessário
 }
 void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
-    ifstream arquivoEntrada(arquivo, ios::in);
+    std::cout << "Carregando grafo do arquivo " << arquivo << "..." << endl;
+    std::ifstream arquivoEntrada(arquivo, ios::in);
 
     if (!arquivoEntrada.is_open()) {
-        cout << "Erro ao abrir o arquivo!" << endl;
+        std::cout << "Erro ao abrir o arquivo!" << endl;
         exit(1);
     }
 
+    std::cout << "Arquivo aberto com sucesso!" << endl;
+
     int numVertices, direcionado, ponderado_nos, ponderado_arestas;
     arquivoEntrada >> numVertices >> direcionado >> ponderado_nos >> ponderado_arestas;
+    std::cout<< "numVertices: "<<numVertices<<endl;
+    std::cout<< "direcionado: "<<direcionado<<endl;
+    std::cout<< "ponderado_nos: "<<ponderado_nos<<endl;
+    std::cout<< "ponderado_arestas: "<<ponderado_arestas<<endl;
 
     this->numVertices = numVertices;
     this->direcionado = direcionado;
@@ -313,10 +320,12 @@ void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
     //peso dos vertices
     int pesosVertices[numVertices];
     if (ponderado_nos == 1) {
+        std::cout << "Peso dos vértices:" << endl;
         for (int i = 0; i < numVertices; ++i) {
             arquivoEntrada >> pesosVertices[i];
         }
     } else {
+        std::cout<< "Não há pesos nos vértices"<<endl;
         for (int i = 0; i < numVertices; ++i) {
             pesosVertices[i] = 1;
         }
@@ -325,6 +334,7 @@ void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
     //ler arestas
     int origem, destino, pesoAresta;
     while (arquivoEntrada >> origem >> destino) {
+    
         if (ponderado_arestas == 1) {
             arquivoEntrada >> pesoAresta;
         } else {
@@ -338,21 +348,21 @@ void GrafoMatriz::carrega_grafo(const std::string& arquivo) {
     }
 
     arquivoEntrada.close();
-
+    std::cout<< "Arquivo fechado com sucesso"<<endl;
     // Exibir o grafo carregado
     //cout << "Grafo carregado com sucesso!" << endl;
-    cout << "Matriz de adjacência:" << endl;
+    std::cout << "Matriz de adjacência:" << endl;
     for (int i = 0; i < numVertices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
-            cout << matriz[i][j] << " ";
+            std::cout << matriz[i][j] << " ";
         }
-        cout << endl;
+        std::cout << endl;
     }
 
     if (ponderado_nos == 1) {
-        cout << "Pesos dos vértices:" << endl;
+        std::cout << "Pesos dos vértices:" << endl;
         for (int i = 0; i < numVertices; ++i) {
-            cout << "Vértice " << (i + 1) << ": " << pesosVertices[i] << endl;
+            std::cout << "Vértice " << (i + 1) << ": " << pesosVertices[i] << endl;
         }
     }
 }

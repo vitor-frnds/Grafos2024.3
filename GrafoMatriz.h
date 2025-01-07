@@ -13,7 +13,8 @@ private:
 
 public:
     GrafoMatriz(int vertices, bool dir);
-
+    int contarArestas();
+    void BuscaProfundidade(int u, bool visitado[]);
     void adicionaAresta(int u, int v, int peso);
     virtual void carrega_grafo(const std::string& arquivo) override;
     virtual bool eh_bipartido() override;

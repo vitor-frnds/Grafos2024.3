@@ -56,9 +56,12 @@ protected:
     bool direcionado;
 
 public:
-    Grafo(); // Declaração do construtor padrão
+    /*Grafo(); // Declaração do construtor padrão
     Grafo(int numVertices, bool direcionado);
-    virtual ~Grafo() = default;
+    virtual ~Grafo() = default;*/
+    Grafo() {} // Construtor padrão vazio
+    virtual ~Grafo() {} // Destrutor virtual
+    
 
     virtual bool eh_bipartido() = 0;
     virtual int n_conexo() = 0;
