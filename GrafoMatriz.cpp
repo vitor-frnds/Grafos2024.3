@@ -236,19 +236,8 @@ void GrafoMatriz::carrega_grafo() {
             //std::cout << "Vértice " << (i + 1) << ": " << pesosVertices[i] << endl;
         }
     }
-
-    /*cout << "Grau: " << get_grau() << endl;
-    cout << "Ordem: " << get_ordem() << endl;
-    cout << "Direcionado: " << (eh_direcionado() ? "Sim" : "Não") << endl;
-    cout << "Componentes conexas: " << n_conexo() << endl;
-    cout << "Vertices ponderados: " << (vertice_ponderado() ? "Sim" : "Não") << endl;
-    cout << "Arestas ponderadas: " << (aresta_ponderada() ? "Sim" : "Não") << endl;
-    cout << "Completo: " << (eh_completo() ? "Sim" : "Não") << endl;
-    cout << "Bipartido: " << (eh_bipartido() ? "Sim" : "Não") << endl;
-    cout << "Arvore: " << (eh_arvore() ? "Sim" : "Não") << endl;*/
 }
 void GrafoMatriz::imprimir_descricao() {
-    //cout << "Começando função de imprimir" << endl;
     cout << "Grau: " << get_grau() << endl;
     cout << "Ordem: " << get_ordem() << endl;
     cout << "Direcionado: " << (eh_direcionado() ? "Sim" : "Não") << endl;
