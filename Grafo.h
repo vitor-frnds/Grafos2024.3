@@ -65,7 +65,7 @@ public:
 
     virtual bool eh_bipartido() = 0;
     virtual int n_conexo() = 0;
-    virtual int get_grau(int vertice) = 0;
+    virtual int get_grau() = 0;
     virtual int get_ordem() = 0;
     virtual bool eh_direcionado() = 0;
     virtual bool vertice_ponderado() = 0;

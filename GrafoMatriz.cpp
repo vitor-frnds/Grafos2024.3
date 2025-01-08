@@ -203,10 +203,10 @@ bool GrafoMatriz::eh_bipartido() {
     return true;
 }
 
-void GrafoMatriz::adicionaAresta(int u, int v, int peso) {
-    matriz[u - 1][v - 1] = peso; //ajuste de índice para 1-based input
+void GrafoMatriz::adicionaAresta(int origem, int destino, int peso) {
+    matriz[origem - 1][destino - 1] = peso; //ajuste de índice para 1-based input
     if (!direcionado) {
-        matriz[v - 1][u - 1] = peso; //se não for direcionado
+        matriz[destino - 1][origem - 1] = peso; //se não for direcionado
     }
 }
 void GrafoMatriz::BuscaProfundidade(int u, bool visitado[]) {
@@ -231,12 +231,38 @@ int GrafoMatriz::n_conexo() {
     return componentes;
 }
 
-int GrafoMatriz::get_grau(int vertice) {
+/*int GrafoMatriz::get_grauVertice(int vertice) {
     int grau = 0;
     for (int i = 0; i < numVertices; i++) {
         grau += matriz[vertice][i];
     }
     return grau;
+}
+int GrafoMatriz::get_grau() {
+        int grauTotal = 0;
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                grauTotal += matriz[i][j];
+            }
+        }
+        return direcionado ? grauTotal : grauTotal / 2;
+}*/
+
+int GrafoMatriz::get_grau(){
+    int maior=0;
+
+    for(int i=0; i<numVertices; i++){
+        int grau = 0;
+        for(int j=0; j<numVertices; j++){
+            if(matriz[i][j]){
+                grau++;
+            }
+        }
+        if(grau>maior){
+            maior = grau;
+        }
+    }
+    return maior;
 }
 
 int GrafoMatriz::get_ordem() {
@@ -304,30 +330,23 @@ void GrafoMatriz::carrega_grafo() {
     
     int numVertices, direcionado, ponderado_nos, ponderado_arestas;
     arquivo >> numVertices >> direcionado >> ponderado_nos >> ponderado_arestas;
-    std::cout<< "numVertices: "<<numVertices<<endl;
+    /*std::cout<< "numVertices: "<<numVertices<<endl;
     std::cout<< "direcionado: "<<direcionado<<endl;
     std::cout<< "ponderado_nos: "<<ponderado_nos<<endl;
-    std::cout<< "ponderado_arestas: "<<ponderado_arestas<<endl;
+    std::cout<< "ponderado_arestas: "<<ponderado_arestas<<endl;*/
 
     this->numVertices = numVertices;
     this->direcionado = direcionado;
 
-    //inicilizando matriz de adjacência
-    for (int i = 0; i < numVertices; ++i) {
-        for (int j = 0; j < numVertices; ++j) {
-            matriz[i][j] = 0; //0 arestas
-        }
-    }
-
     //peso dos vertices
     int pesosVertices[numVertices];
     if (ponderado_nos == 1) {
-        cout << "Peso dos vértices:" << endl;
+        //cout << "Peso dos vértices:" << endl;
         for (int i = 0; i < numVertices; ++i) {
             arquivo >> pesosVertices[i];
         }
     } else {
-        cout<< "Não há pesos nos vértices"<<endl;
+        //cout<< "Não há pesos nos vértices"<<endl;
         for (int i = 0; i < numVertices; ++i) {
             pesosVertices[i] = 1;
         }
@@ -350,34 +369,46 @@ void GrafoMatriz::carrega_grafo() {
     }
 
     arquivo.close();
-    cout<< "Arquivo fechado com sucesso"<<endl;
+    //cout<< "Arquivo fechado com sucesso"<<endl;
     // Exibir o grafo carregado
     //cout << "Grafo carregado com sucesso!" << endl;
-    cout << "Matriz de adjacência:" << endl;
+    //cout << "Matriz de adjacência:" << endl;
     for (int i = 0; i < numVertices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
-            std::cout << matriz[i][j] << " ";
+            //std::cout << matriz[i][j] << " ";
         }
-        std::cout << endl;
+        //std::cout << endl;
     }
 
     if (ponderado_nos == 1) {
-        std::cout << "Pesos dos vértices:" << endl;
+        //std::cout << "Pesos dos vértices:" << endl;
         for (int i = 0; i < numVertices; ++i) {
-            std::cout << "Vértice " << (i + 1) << ": " << pesosVertices[i] << endl;
+            //std::cout << "Vértice " << (i + 1) << ": " << pesosVertices[i] << endl;
         }
     }
+
+    /*cout << "Grau: " << get_grau() << endl;
+    cout << "Ordem: " << get_ordem() << endl;
+    cout << "Direcionado: " << (eh_direcionado() ? "Sim" : "Não") << endl;
+    cout << "Componentes conexas: " << n_conexo() << endl;
+    cout << "Vertices ponderados: " << (vertice_ponderado() ? "Sim" : "Não") << endl;
+    cout << "Arestas ponderadas: " << (aresta_ponderada() ? "Sim" : "Não") << endl;
+    cout << "Completo: " << (eh_completo() ? "Sim" : "Não") << endl;
+    cout << "Bipartido: " << (eh_bipartido() ? "Sim" : "Não") << endl;
+    cout << "Arvore: " << (eh_arvore() ? "Sim" : "Não") << endl;*/
+}
+void GrafoMatriz::imprimir_descricao() {
+    //cout << "Começando função de imprimir" << endl;
+    cout << "Grau: " << get_grau() << endl;
+    cout << "Ordem: " << get_ordem() << endl;
+    cout << "Direcionado: " << (eh_direcionado() ? "Sim" : "Não") << endl;
+    cout << "Componentes conexas: " << n_conexo() << endl;
+    cout << "Vertices ponderados: " << (vertice_ponderado() ? "Sim" : "Não") << endl;
+    cout << "Arestas ponderadas: " << (aresta_ponderada() ? "Sim" : "Não") << endl;
+    cout << "Completo: " << (eh_completo() ? "Sim" : "Não") << endl;
+    cout << "Bipartido: " << (eh_bipartido() ? "Sim" : "Não") << endl;
+    cout << "Arvore: " << (eh_arvore() ? "Sim" : "Não") << endl;
+    cout << "Aresta Ponte: " << (possui_ponte() ? "Sim" : "Não") << endl;
+    cout << "Vertice de Articulação: " << (possui_articulacao() ? "Sim" : "Não") << endl;
 }
 
-
-
-/*void GrafoMatriz::novo_grafo(const std::string& arquivo) {
-    srand(time(0));
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
-            if (i != j) {
-                matriz[i][j] = rand() % 2;  // Gera aresta aleatória
-            }
-        }
-    }
-}*/

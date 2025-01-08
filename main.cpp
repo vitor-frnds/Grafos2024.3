@@ -6,21 +6,8 @@
 
 using namespace std;
 
-/*void imprimir_descricao(Grafo* grafo) {
-    cout << "Grau: " << grafo->get_grau(1) << endl;  // Exemplo com vértice 1
-    cout << "Ordem: " << grafo->get_ordem() << endl;
-    cout << "Direcionado: " << (grafo->eh_direcionado() ? "Sim" : "Não") << endl;
-    cout << "Componentes conexas: " << grafo->n_conexo() << endl;
-    cout << "Vertices ponderados: " << (grafo->vertice_ponderado() ? "Sim" : "Não") << endl;
-    cout << "Arestas ponderadas: " << (grafo->aresta_ponderada() ? "Sim" : "Não") << endl;
-    cout << "Completo: " << (grafo->eh_completo() ? "Sim" : "Não") << endl;
-    cout << "Bipartido: " << (grafo->eh_bipartido() ? "Sim" : "Não") << endl;
-    cout << "Arvore: " << (grafo->eh_arvore() ? "Sim" : "Não") << endl;
-    //cout << "Aresta Ponte: " << (grafo->possui_ponte() ? "Sim" : "Não") << endl;
-    //cout << "Vertice de Articulação: " << (grafo->possui_articulacao() ? "Sim" : "Não") << endl;
-}
 
-void carregar_descrever(string estrutura, string arquivo) {
+/*void carregar_descrever(string estrutura, string arquivo) {
     if (estrutura == "-m") {
         GrafoMatriz grafo(0, false);
         grafo.carrega_grafo(arquivo);
@@ -95,17 +82,39 @@ using std::cout;
 using std::endl;
 
 int main() {
-    cout << "Iniciando..." << endl;
-    // Criar um grafo com 4 vértices, direcionado
-    GrafoMatriz grafo(4, true);
-    cout << "Grafo criado" << endl;
+    // Teste 1: Criar um grafo manualmente e verificar se é bipartido
+    /*GrafoMatriz grafo1(6, false); // Grafo com 4 vértices, não direcionado
+    grafo1.adicionaAresta(1, 2, 1);
+    grafo1.adicionaAresta(2, 3, 1);
+    grafo1.adicionaAresta(3, 4, 1);
+    grafo1.adicionaAresta(4, 1, 1);
+    grafo1.adicionaAresta(3,1,1);
+    //grafo1.adicionaAresta() // Forma um ciclo de tamanho par (bipartido)
+    
 
-    // Carregar o grafo a partir de um arquivo
-    grafo.carrega_grafo();
+    cout << "Teste 1 - Grafo manual: " << endl;
+    cout << "O grafo é bipartido? " << (grafo1.eh_bipartido() ? "Sim" : "Não") << endl;
+    cout << "Qual o grau do grafo?" << grafo1.get_grau() << endl;
+    cout << "O grafo é completo? " << (grafo1.eh_completo() ? "Sim" : "Não") << endl;
+    cout << "Número de componentes conexas: " << grafo1.n_conexo() << endl;
+    cout << "Número de arestas: " << grafo1.contarArestas() << endl;
 
-    cout << "Finalizado " << endl;
-    // Testar função de descrição do grafo
-    //cout << "O grafo é bipartido? " << (grafo.eh_bipartido() ? "Sim" : "Não") << endl;
+    // Teste 2: Verificar propriedades de um grafo carregado de arquivo
+    GrafoMatriz grafo2(0, false);
+    cout << "\nTeste 2 - Carregando grafo do arquivo:" << endl;
+    grafo2.carrega_grafo();
+    cout << "O grafo é bipartido? " << (grafo2.eh_bipartido() ? "Sim" : "Não") << endl;
+    cout << "O grafo é uma árvore? " << (grafo2.eh_arvore() ? "Sim" : "Não") << endl;
+    cout << "Número de componentes conexas: " << grafo2.n_conexo() << endl;
+    cout << "Número de arestas: " << grafo2.contarArestas() << endl;*/
+    GrafoMatriz grafo1(4, true);
+    //grafo1.carrega_grafo();
+    grafo1.adicionaAresta(1, 2, 1);
+    grafo1.adicionaAresta(2,3,5);
+    grafo1.adicionaAresta(2,4,6);
+    grafo1.imprimir_descricao();
+    //GrafoMatriz grafo1(2,true);
+
 
     return 0;
 }
