@@ -82,14 +82,16 @@ using std::cout;
 using std::endl;
 
 int main() {
-    GrafoMatriz grafo1(4, false);
-    grafo1.adicionaAresta(1, 2, 1);
-    grafo1.adicionaAresta(1, 3, 1);
-    //grafo1.adicionaAresta(2, 3, 1);
-    grafo1.adicionaAresta(2,4,1);
-    //grafo1.adicionaAresta(3,4,1);
+    GrafoMatriz grafo1(6, true);
+    /*grafo1.adicionaAresta(1,4,6);
+    grafo1.adicionaAresta(1,5,6);
+    grafo1.adicionaAresta(1,6,6);
+    grafo1.adicionaAresta(2,3,6);
+    grafo1.adicionaAresta(5,2,6);
+    //grafo1.adicionaAresta()
+    grafo1.imprimir_descricao();*/
+    grafo1.carrega_grafo();
     grafo1.imprimir_descricao();
-    //grafo1.carrega_grafo();
 
 
     return 0;

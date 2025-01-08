@@ -15,7 +15,7 @@ public:
     GrafoMatriz(int vertices, bool dir);
     void imprimir_descricao();
     int contarArestas();
-    void BuscaProfundidade(int u, bool visitado[]);
+    void buscaProfundidade(int u, bool visitado[]);
     void adicionaAresta(int u, int v, int peso);
     virtual void carrega_grafo() override;
     virtual bool eh_bipartido() override;
