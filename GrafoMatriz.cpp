@@ -247,19 +247,40 @@ int GrafoMatriz::get_grau() {
         }
         return direcionado ? grauTotal : grauTotal / 2;
 }*/
-
+/*bool verificaDestino(int vertice) {
+    for (int i = 0; i < numVertices; i++) {
+        if (matriz[i][vertice - 1] != 0) { // Verifica a coluna do vértice
+            return true; // Existe uma aresta que termina no vértice
+        }
+    }
+    return false; // Nenhuma aresta termina no vértice
+}*/
 int GrafoMatriz::get_grau(){
     int maior=0;
-
-    for(int i=0; i<numVertices; i++){
-        int grau = 0;
-        for(int j=0; j<numVertices; j++){
-            if(matriz[i][j]){
-                grau++;
+    if(direcionado){
+        for(int i=0; i<numVertices; i++){
+            int grau = 0;
+            for(int j=0; j<numVertices; j++){
+                if(matriz[i][j]){
+                    grau++;
+                }
+            }
+            if(grau>maior){
+                maior = grau;
             }
         }
-        if(grau>maior){
-            maior = grau;
+        return maior;
+    }else{
+        for(int i=0; i<numVertices; i++){
+            int grau = 0;
+            for(int j=0; j<numVertices; j++){
+                if(matriz[i][j]){
+                    grau++;
+                }
+            }
+            if(grau>maior){
+                maior = grau;
+            }
         }
     }
     return maior;
@@ -372,12 +393,12 @@ void GrafoMatriz::carrega_grafo() {
     //cout<< "Arquivo fechado com sucesso"<<endl;
     // Exibir o grafo carregado
     //cout << "Grafo carregado com sucesso!" << endl;
-    //cout << "Matriz de adjacência:" << endl;
+    cout << "Matriz de adjacência:" << endl;
     for (int i = 0; i < numVertices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
-            //std::cout << matriz[i][j] << " ";
+            std::cout << matriz[i][j] << " ";
         }
-        //std::cout << endl;
+        std::cout << endl;
     }
 
     if (ponderado_nos == 1) {
