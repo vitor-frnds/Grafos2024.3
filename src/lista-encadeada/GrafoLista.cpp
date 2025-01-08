@@ -32,7 +32,7 @@ GrafoLista::~GrafoLista() {
 
 void GrafoLista::carrega_grafo() {
     ifstream arquivo;
-    arquivo.open("C:/Users/henri/CLionProjects/trabalho-grafos/Grafo.txt", ios::in);
+    arquivo.open("../../input/Grafo.txt", ios::in);
 
     if (!arquivo.is_open()) {
         cout << "Erro ao abrir o arquivo!" << endl;
@@ -304,7 +304,7 @@ void GrafoLista::novo_grafo() {
     srand(time(0));
     ifstream arquivo;
 
-    arquivo.open("C:/Users/henri/CLionProjects/trabalho-grafos/Descricao.txt", ios::in);
+    arquivo.open(""../../input/Descricao.txt", ios::in);
     if (!arquivo.is_open()) {
         cout << "Erro ao abrir o arquivo!" << endl;
         exit(1);
@@ -493,44 +493,12 @@ void GrafoLista::novo_grafo() {
         }
     }
 
-    imprimirVertices();
-    imprimirArestas();
+    //imprimirVertices();
+    //imprimirArestas();
 
-    cout << "Grau: " << get_grau() << endl << "Ordem: " << get_ordem() << endl << "Direcionado: " << eh_direcionado() << endl <<
+    /*cout << "Grau: " << get_grau() << endl << "Ordem: " << get_ordem() << endl << "Direcionado: " << eh_direcionado() << endl <<
         "Componentes conexas: " << n_conexo() << endl << "Vertices ponderados: " << vertice_ponderado() << endl <<
         "Arestas ponderadas: " << aresta_ponderada() << endl << "Completo: " << eh_completo() << endl <<
         "Bipartido: " << eh_bipartido() << endl << "Arvore: " << eh_arvore() << endl << "Aresta Ponte: " <<
-        possui_ponte() << endl << "Vertice de Articulacao: " << possui_articulacao() << endl;
+        possui_ponte() << endl << "Vertice de Articulacao: " << possui_articulacao() << endl;*/
 }
-
-// Grau*
-// Ordem*
-// Direcionado*
-// Vertices ponderados*
-// Arestas ponderadas*
-
-// Completo*
-// Componentes conexas*
-// Bipartido*
-// Arvore
-// Aresta Ponte
-// Vertice de Articulação
-
-
-// Bipartido:
-// Separar em dois grupos
-// Sortear um de cada grupo para criar uma aresta
-
-// Sortear uma aresta
-// Insere
-// Descumpriu alguma imposição?
-// Se não, então continua
-// Se sim, remove e sorteia novamente
-
-// Aresta ponte
-// N componentes conexas - 1
-// criar dois grupos
-// criar uma aresta que liga eles
-
-// Vertice de articulação
-// (adicionar um vertice no final)
