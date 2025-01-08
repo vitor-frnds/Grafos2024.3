@@ -19,41 +19,77 @@ bool GrafoLista::vertice_ponderado() {
 }
 
 int GrafoLista::get_grau() {
-    Vertice *v = raizVertice;
-    int grauGrafo =0;
-    int grau = 0;
-    while (v != nullptr) {
-        grau = v->totalArestas();
-        if (grau > grauGrafo) {
-            grauGrafo = grau;
+    ///informa o grau do grafo para grafosnão direcionados
+    if (!eh_direcionado()) {
+        Vertice *v = raizVertice;
+        int grauGrafo =0;
+        int grau = 0;
+        while (v != nullptr) {
+            cout<<v->getId()<<endl;
+            cout<<v->totalArestas()<<endl;
+            grau = v->totalArestas();
+            if (grau > grauGrafo) {
+                grauGrafo = grau;
+            }
+            v = v->getProx();
         }
-        v = v->getProx();
+        return grauGrafo;
     }
-    return grauGrafo;
+    else {
+        Vertice *v = raizVertice;
+        int grauGrafo = 0;
+        while (v != nullptr) {
+            int grauSaida = v->totalArestasSaida();     // Função para calcular grau de saída
+            if (grauSaida > grauGrafo) {
+                grauGrafo = grauSaida;
+            }
+            v = v->getProx();
+        }
+        return grauGrafo;
+
+    }
 }
 
 bool GrafoLista::eh_completo() {
     ///verifica se todos os nos possuem mesmo grau
     int grau = 0, grauGrafo = 0, aux = 0;
     Vertice *v = raizVertice;
-
-    while (v != nullptr) {
-        aux++;
-        grau = v->totalArestas();
-        if (aux == 1)
-            grauGrafo = grau;
-        if (grau != grauGrafo) {
-            return false;
+    ///para grafos não direcionados
+    if (!eh_direcionado()) {
+        while (v != nullptr) {
+            aux++;
+            grau = v->totalArestas();
+            if (aux == 1)
+                grauGrafo = grau;
+            if (grau != grauGrafo) {
+                return false;
+            }
+            v = v->getProx();
         }
-        v = v->getProx();
+        if (grauGrafo == get_ordem()-1)
+            return true;
     }
-    if (grauGrafo == get_ordem()-1)
-        return true;
+    ///para grafos direcionados
+    else {
+        while (v != nullptr) {
+            aux++;
+            grau = v->totalArestasSaida();
+            if (aux == 1)
+                grauGrafo = grau;
+            if (grau != grauGrafo) {
+                return false;
+            }
+            v = v->getProx();
+        }
+        if (grauGrafo == get_ordem()-1)
+            return true;
+    }
+
     return false;
 }
 
 bool GrafoLista::eh_bipartido() {
-    // Verifica se o grafo é completo; grafos completos não podem ser bipartidos (exceto K_2).
+    // Verifica se o grafo é completo; grafos completos não podem ser bipartidos
     if (eh_completo())
         return false;
 
@@ -82,7 +118,7 @@ bool GrafoLista::eh_bipartido() {
 
         // Verifica a combinação binária atual
         for (int j = 0; j < num; j++) {
-            Vertice* v1 = buscaVertice(j + 1); // Obtém o vértice (ajustando para 1-based)
+            Vertice* v1 = buscaVertice(j + 1); // Obtém o vértice
 
             for (int k = j + 1; k < num; k++) {
                 // Verifica se os vértices estão no mesmo conjunto na partição atual
@@ -104,19 +140,16 @@ bool GrafoLista::eh_bipartido() {
                     }
                 }
             }
-
             if (!ehBipartido) {
                 break; // Sai do loop externo
             }
         }
-
         // Se encontramos uma partição válida, o grafo é bipartido
         if (ehBipartido) {
             delete[] binario;
             return true;
         }
     }
-
     // Nenhuma partição válida encontrada; o grafo não é bipartido
     delete[] binario;
     return false;

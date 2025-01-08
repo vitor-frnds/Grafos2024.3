@@ -114,3 +114,13 @@ Aresta* Vertice::getArestaPara(Vertice* destino) {
     }
     return nullptr; // Retorna nullptr se nenhuma aresta conectar os dois vértices
 }
+
+int Vertice::totalArestasSaida() {
+    int total = 0;
+    for (int i = 0; i < n; i++) {
+        if (arestas[i]->getInicio() == this) {
+            total++;
+        }
+    }
+    return total;
+}
