@@ -1,3 +1,7 @@
+//
+// Created by gomes on 25/12/2024.
+//
+
 #ifndef VERTICE_H
 #define VERTICE_H
 #include "Aresta.h"
@@ -16,11 +20,16 @@ public:
     void inserirAresta(Aresta* a);
     Aresta* getAresta(int i);
     int totalArestas();
+    void removerAresta(Aresta* a);
+
+    Aresta **copiarVetorArestas();
+
+    Aresta* getArestaPara(Vertice* v);
+    Aresta** getVetorArestas();
 private:
     int id;
     int peso;
     Vertice* prox;
-
     Aresta** arestas; /// Vetor de ponteiros de Arestas
     int n; /// Total de arestas
     int tam; /// Tamanho do vetor

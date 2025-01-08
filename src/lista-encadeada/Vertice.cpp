@@ -1,5 +1,5 @@
-#include "Vertice.h"
 #include <iostream>
+#include "Vertice.h"
 
 using namespace std;
 
@@ -47,6 +47,10 @@ Aresta* Vertice::getAresta(int i) {
     }
 }
 
+Aresta ** Vertice::getVetorArestas() {
+    return arestas;
+}
+
 void Vertice::inserirAresta(Aresta *a) {
     if (n >= tam) {
         aumentarVetor();
@@ -67,4 +71,46 @@ void Vertice::aumentarVetor() {
 
 int Vertice::totalArestas() {
     return n;
+}
+
+void Vertice::removerAresta(Aresta* a)
+{
+    // Encontrar posição da aresta no vetor
+    int i = 0;
+    for (i = 0; i < n; i++) {
+        if (arestas[i] == a) {
+            break;
+        }
+    }
+    // Verificar se a aresta foi encontrada
+    if (i == n) {
+        cout << "Erro: Aresta nao encontrada." << endl;
+        exit(1);
+    }
+
+    // Reorganizando vetor
+    for (int j = i; j < n-1; j++) {
+        arestas[j] = arestas[j+1];
+    }
+    n--;
+
+    //cout << "Aresta removida." << endl;
+}
+
+Aresta** Vertice::copiarVetorArestas() {
+    Aresta** a = new Aresta*[n];
+    for (int i = 0; i < n; i++) {
+        a[i] = getAresta(i);
+    }
+    return a;
+}
+
+Aresta* Vertice::getArestaPara(Vertice* destino) {
+    for (int i = 0; i < totalArestas(); ++i) {
+        Aresta* a = getAresta(i);
+        if (a->getFim() == destino) {
+            return a;
+        }
+    }
+    return nullptr; // Retorna nullptr se nenhuma aresta conectar os dois vértices
 }
