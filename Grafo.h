@@ -5,15 +5,15 @@
 class Grafo {
 protected:
     bool direcionado;
-    bool verticesPonderados;
-    bool arestasPonderadas;
-    int numVertices;
+    // bool verticesPonderados;
+    // bool arestasPonderadas;
+    // int numVertices;
 
 public:
     //por enquanto, coloquei todas as funções como int e sem parâmetros,
     //mas depois é só trocar se precisar
-    Grafo();
-    Grafo(int numVertices, bool direcionado = false, bool verticesPonderados = false, bool arestasPonderadas = false);
+    //Grafo();
+    //Grafo(int numVertices, bool direcionado = false, bool verticesPonderados = false, bool arestasPonderadas = false);
     //função força bruta que indica se o grafo é bipartido ou não
     virtual bool eh_bipartido() = 0;
     //- função que indica a quantidade de componentes conexas
