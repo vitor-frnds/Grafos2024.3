@@ -12,8 +12,8 @@ protected:
 public:
     //por enquanto, coloquei todas as funções como int e sem parâmetros,
     //mas depois é só trocar se precisar
-    //Grafo();
-    //Grafo(int numVertices, bool direcionado = false, bool verticesPonderados = false, bool arestasPonderadas = false);
+    Grafo();
+    Grafo(int numVertices, bool direcionado = false, bool verticesPonderados = false, bool arestasPonderadas = false);
     //função força bruta que indica se o grafo é bipartido ou não
     virtual bool eh_bipartido() = 0;
     //- função que indica a quantidade de componentes conexas
@@ -37,9 +37,9 @@ public:
     //função que diz se existe ao menos uma aresta ponte
     virtual bool possui_ponte() = 0;
     //- função que lê um arquivo txt com um grafo e carrega ele
-    virtual void carrega_grafo() = 0;
+    virtual void carrega_grafo(std::string nomeArquivo) = 0;
     //- função que lê um arquivo txt de configuracao e gera um grafo aleatorio
-    virtual void novo_grafo() = 0;
+    virtual void novo_grafo(std::string nomeArquivo) = 0;
 };
 
 #endif

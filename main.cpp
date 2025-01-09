@@ -1,92 +1,92 @@
 #include <iostream>
 #include <fstream>
-#include <string>
-#include "GrafoMatriz.h"
-//#include "GrafoLista.h"
+#include "GrafoLista.h"
 
 using namespace std;
 
+int main(int argc, char *argv[])
+{
 
-/*void carregar_descrever(string estrutura, string arquivo) {
-    if (estrutura == "-m") {
-        GrafoMatriz grafo(0, false);
-        grafo.carrega_grafo(arquivo);
-        imprimir_descricao(&grafo);
-    } else if (estrutura == "-l") {
-        GrafoLista grafo(0, false);
-        grafo.carrega_grafo(arquivo);
-        imprimir_descricao(&grafo);
-    }else {
-        cerr << "Estrutura inválida!" << endl;
-        cout << "Estrturura inválida!" << endl;
-    }
-}
-
-void criar_salvar(string estrutura, string descricao, string arquivo_saida) {
-    ifstream file(descricao);
-    if (!file.is_open()) {
-        cerr << "Erro ao abrir o arquivo de descrição!" << endl;
-        return;
-    }
-
-    int numVertices, direcionado, ponderadoVertices, ponderadoArestas;
-    file >> numVertices >> direcionado >> ponderadoVertices >> ponderadoArestas;
-
-    if (estrutura == "-m") {
-        GrafoMatriz grafo(numVertices, direcionado);
-        grafo.novo_grafo(descricao);
-        //grafo.salva_grafo(arquivo_saida);
-    } else if (estrutura == "-l") {
-        //GrafoLista grafo(numVertices, direcionado);
-        //grafo.novo_grafo(descricao);
-        //grafo.salva_grafo(arquivo_saida);
-    } else {
-        cerr << "Estrutura inválida!" << endl;
-        cout << "Estrturura inválida!" << endl;
-    }
-}
-
-int main(int argc, char* argv[]) {
-    if (argc < 4) {
-        cout << "Uso: main.out -d|-c -m|-l <arquivo> [arquivo_saida]" << endl;
+    // comando inválido fornecido no terminal
+    if (argc < 4 || argc > 5)
+    {
+        cout << "Erro na quantidade de argumentos" << "\n";
         return 1;
     }
 
-    string operacao = argv[1];
+    string opcao = argv[1];
+    cout << "Valor armazenado em opcao: " << opcao << endl;
     string estrutura = argv[2];
-    string arquivo = argv[3];
+    cout << "Valor armazenado em estrutura: " << estrutura << endl;
+    string arquivoDescricao, arquivoGrafo;
 
-    if (operacao == "-d") {
-        cout << "-d";
-        //carregar_descrever(estrutura, arquivo);
-    } else if (operacao == "-c") {
-        if (argc < 5) {
-            cout << "Faltando arquivo de saída para criação!" << endl;
-            return 1;
-        }
-        string arquivo_saida = argv[4];
-        criar_salvar(estrutura, arquivo, arquivo_saida);
-    } else {
-        cout << "Operação inválida!" << endl;
+    // Validação dos argumentos
+    if (opcao != "-c" && opcao != "-d")
+    {
+        cout << "Erro: opção inválida" << "\n";
+        return 1;
     }
 
-    return 0;
-}*/
+    if (estrutura != "-l" && estrutura != "-m")
+    {
+        cout << "Erro: Estrutura inválida" << "\n";
+        return 1;
+    }
 
-#include <iostream>
-#include "GrafoMatriz.h"
-#include "GrafoMatriz.h"
-#include <iostream>
+    if (opcao == "-d")
+    {
+        if (argc != 4)
+        {
+            cout << "Erro: -d requer 4 argumentos" << "\n";
+            return 1;
+        }
+        arquivoGrafo = argv[3];
+        if (estrutura == "-m")
+        {
+            cout << "Teste: grafo -d -m entrou" << "\n";
+            // carrega grafo como matriz
+            //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
+        }
+        else
+        {
+            cout << "Teste: grafo -d -l entrou" << "\n";
+            GrafoLista g;
+            g.carrega_grafo(arquivoGrafo);
+            g.imprimeGrafo(arquivoGrafo);
+            // carrega grafo como lista
+            //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
+        }
+    }
+    else if (opcao == "-c")
+    {
+        if (argc != 5)
+        {
+            cout << "Erro: -c requer 5 argumentos" << "\n";
+            return 1;
+        }
+        arquivoDescricao = argv[3]; // arquivo passado para leitura
+        arquivoGrafo = argv[4];     // arquivo passado para escrita
 
-using std::cout;
-using std::endl;
-
-int main() {
-    GrafoMatriz grafo1(6, true);
-    grafo1.carrega_grafo();
-    grafo1.imprimir_descricao();
-
-
+        if (estrutura == "-m")
+        {
+            cout << "Teste: grafo -c -m entrou" << "\n";
+            // carrega grafo como matriz
+            //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
+        }
+        else
+        {
+            cout << "Teste: grafo -c -l entrou" << "\n";
+            GrafoLista g;
+            g.novo_grafo(arquivoDescricao);
+            g.salvaGrafoLista(arquivoGrafo);
+            // carrega grafo como lista
+            // imprime a descrição no fromato desejado
+        }
+    }
+    else
+    {
+        cout << "Erro inesperado";
+        return 1;
+    }
     return 0;
 }
-
