@@ -24,9 +24,9 @@ GrafoLista::~GrafoLista() {
     }
 }
 
-void GrafoLista::carrega_grafo() {
+void GrafoLista::carrega_grafo(string nomeArquivo) {
     ifstream arquivo;
-    arquivo.open("../../input/Grafo.txt", ios::in);
+    arquivo.open(nomeArquivo, ios::in);
 
     if (!arquivo.is_open()) {
         cout << "Erro ao abrir o arquivo!" << endl;
