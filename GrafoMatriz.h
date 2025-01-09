@@ -10,6 +10,7 @@ private:
     int matriz[MAX_VERTICES][MAX_VERTICES];
     int numVertices;
     bool direcionado;
+    int pesosVertices[MAX_VERTICES];
 
 public:
     GrafoMatriz(int vertices, bool dir);

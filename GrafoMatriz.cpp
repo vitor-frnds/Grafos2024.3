@@ -145,11 +145,24 @@ bool GrafoMatriz::eh_arvore() {
 }
 
 bool GrafoMatriz::vertice_ponderado() {
-    return false;  // Implementação fictícia; ajuste conforme necessário
+
+    for (int i = 0; i < numVertices; ++i) {
+        if (pesosVertices[i] != 1) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool GrafoMatriz::aresta_ponderada() {
-    return true;  // Implementação fictícia; ajuste conforme necessário
+    for (int i = 0; i < numVertices; ++i) {
+        for (int j = 0; j < numVertices; ++j) {
+            if (matriz[i][j] > 1) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool GrafoMatriz::possui_articulacao() {
@@ -183,7 +196,7 @@ void GrafoMatriz::carrega_grafo() {
     this->direcionado = direcionado;
 
     //peso dos vertices
-    int pesosVertices[numVertices];
+    //int pesosVertices[numVertices];
     if (ponderado_nos == 1) {
         //cout << "Peso dos vértices:" << endl;
         for (int i = 0; i < numVertices; ++i) {
