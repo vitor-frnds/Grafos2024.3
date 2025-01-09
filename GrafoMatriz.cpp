@@ -138,7 +138,7 @@ int GrafoMatriz::contarArestas() {
             }
         }
     }
-    return direcionado ? arestas : arestas / 2;
+    return arestas;
 }
 
 bool GrafoMatriz::eh_arvore() {
