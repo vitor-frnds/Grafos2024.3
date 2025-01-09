@@ -379,3 +379,50 @@ void GrafoLista::imprimeGrafo(string nomeArquivo)
     {cout<<"Vertide de Articulacao: "<<"Sim"<<"\n";}
     else{cout<<"Vertide de Articulacao: "<<"Nao"<<"\n";}
 }
+void GrafoLista::salvaGrafoLista(string nomeArquivo) // para os casos de comando -l
+{
+    //verificação do arquivo
+
+    ofstream arquivoGrafo;
+    arquivoGrafo.open(nomeArquivo, ios::out);
+
+    if (!arquivoGrafo.is_open()) {
+        cout << "Erro ao abrir o arquivo!" << endl;
+        exit(1);
+    }
+    else{
+
+        arquivoGrafo << nomeArquivo << "\n\n";
+        arquivoGrafo << get_ordem() << " "<< eh_direcionado()<< " "<< vertice_ponderado()<<" "<< aresta_ponderada()<< "\n";
+
+        if(vertice_ponderado()){
+
+            Vertice* v = raizVertice;
+
+            while (v != nullptr) {
+                arquivoGrafo << v->getPeso() << " ";
+                v = v->getProx();
+            }
+
+        }
+        if(aresta_ponderada()){
+
+            Aresta* a = raizAresta;
+
+            while (a != nullptr) {
+                arquivoGrafo << a->getInicio()->getId() << " " << a->getFim()->getId() << " " << a->getPeso() << "\n";
+                a = a->getProx();
+            }
+
+        }
+        else{
+            Aresta* a = raizAresta;
+
+            while (a != nullptr) {
+                arquivoGrafo << a->getInicio()->getId() << " " << a->getFim()->getId() << "\n";
+                a = a->getProx();
+            }
+        }
+    }
+    arquivoGrafo.close();
+}
