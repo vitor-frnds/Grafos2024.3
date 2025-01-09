@@ -60,7 +60,7 @@ void GrafoMatriz::adicionaAresta(int origem, int destino, int peso) {
 void GrafoMatriz::buscaProfundidade(int u, bool visitado[]) {
     visitado[u] = true;
     for (int v = 0; v < numVertices; v++) {
-        if (matriz[u][v] && !visitado[v]) {
+        if (matriz[u][v] && !visitado[v]) {//se é != 0 e v ainda nao foi visitado
             buscaProfundidade(v, visitado);
         }
     }
@@ -83,13 +83,13 @@ int GrafoMatriz::get_grau(){
     int maior=0;
     if(direcionado){
         for(int i=0; i<numVertices; i++){
-            int grau = 0;
+            int grau = 0;//reinicia o grau
             for(int j=0; j<numVertices; j++){
-                if(matriz[j][i]){
+                if(matriz[j][i]){//diferernte de 0
                     grau++;
                 }
             }
-            if(grau>maior){
+            if(grau>maior){//maior que o grau no momento
                 maior = grau;
             }
         }
@@ -98,8 +98,8 @@ int GrafoMatriz::get_grau(){
         for(int i=0; i<numVertices; i++){
             int grau = 0;
             for(int j=0; j<numVertices; j++){
-                if(matriz[i][j]){
-                    grau++;
+                if(matriz[i][j]){//dessa percorre por coluna ao invés de linha
+                    grau++;      //vendo apenas os destinos das arestas
                 }
             }
             if(grau>maior){
@@ -121,8 +121,8 @@ bool GrafoMatriz::eh_direcionado() {
 bool GrafoMatriz::eh_completo() {
     for (int i = 0; i < numVertices; i++) {
         for (int j = 0; j < numVertices; j++) {
-            if (i != j && !matriz[i][j]) {
-                return false;
+            if (i != j && !matriz[i][j]) {//se i!=j entoa nao esta no mesmo vértice
+                return false;             //matriz é igual a 0
             }
         }
     }
@@ -138,19 +138,21 @@ int GrafoMatriz::contarArestas() {
             }
         }
     }
-    return direcionado ? arestas : arestas / 2;
+    return arestas;//se nao direcionado é uma matriz triangular superior
 }
 
 bool GrafoMatriz::eh_arvore() {
     return (n_conexo() == 1 && contarArestas() == numVertices - 1);
+    //para ser uma árvore é necessário sera apenas uma componente conexa e as arestas
+    //tem que ser igual a vertices-1, mostrando que so há um caminho entre qualqeur dois nós
 }
 
 bool GrafoMatriz::vertice_ponderado() {
-    return false;  // Implementação fictícia; ajuste conforme necessário
+    return false;  //impletarao depois
 }
 
 bool GrafoMatriz::aresta_ponderada() {
-    return true;  // Implementação fictícia; ajuste conforme necessário
+    return true;  //impletarao depois
 }
 
 void GrafoMatriz::carrega_grafo() {
@@ -197,7 +199,7 @@ void GrafoMatriz::carrega_grafo() {
         if (ponderado_arestas == 1) {
             arquivo >> pesoAresta;
         } else {
-            arquivo >> pesoNada;
+            arquivo >> pesoNada;//ao inves de ler a origem do próximo leria o peso do anterior
             pesoAresta = 1;
         }
 
@@ -205,7 +207,7 @@ void GrafoMatriz::carrega_grafo() {
             matriz[origem - 1][destino - 1] = pesoAresta;
         }
         else{
-            if(origem<destino){
+            if(origem<destino){//criar uma matriz triangular superior
                 matriz[origem - 1][destino - 1] = pesoAresta;
             }
             else{
@@ -246,8 +248,13 @@ void GrafoMatriz::imprimir_descricao() {
     cout << "Aresta Ponte: " << (possui_ponte() ? "Sim" : "Não") << endl;
     cout << "Vertice de Articulação: " << (possui_articulacao() ? "Sim" : "Não") << endl;
 }
-
-void GrafoMatriz::salvaGrafoMatriz(string entrada, string nomeArquivo) {
+bool GrafoMatriz::possui_articulacao(){
+    return true; //apenas para nao dar erro
+}
+bool GrafoMatriz::possui_ponte(){
+    return true; //apenas para nao dar erro
+}
+/*void GrafoMatriz::salvaGrafoMatriz(string entrada, string nomeArquivo) {
 
     ifstream entrada;
     ofstream arquivoGrafo;
@@ -362,7 +369,7 @@ bool GrafoMatriz::possui_articulacao() {
     }
 
     return false; // Não possui vértices de articulação
-}
+}*/
 
 
 

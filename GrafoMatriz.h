@@ -28,11 +28,11 @@ public:
     virtual bool vertice_ponderado() override;
     virtual bool aresta_ponderada() override;
     virtual bool possui_articulacao() override;
-    //virtual bool possui_ponte() override;
+    virtual bool possui_ponte() override;
 
-    void salvaGrafoMatriz(string entrada, string nomeArquivo) override;
-    bool GrafoMatriz::possui_ponte() override;
-    bool GrafoMatriz::possui_articulacao() override;
+    //void salvaGrafoMatriz(string entrada, string nomeArquivo) override;
+    //bool GrafoMatriz::possui_ponte() override;
+    //bool GrafoMatriz::possui_articulacao() override;
 };
 
 #endif
