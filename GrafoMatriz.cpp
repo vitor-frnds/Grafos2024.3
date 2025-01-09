@@ -62,7 +62,9 @@ void GrafoMatriz::buscaProfundidade(int u, bool visitado[]) {
         }
     }
 }
-
+/*int GrafoMatriz::AdicionarVertice(){
+    return numVertices+1;
+}*/
 int GrafoMatriz::n_conexo() {
     bool visitado[MAX_VERTICES] = {false};
     int componentes = 0;
@@ -249,5 +251,9 @@ void GrafoMatriz::imprimir_descricao() {
     cout << "Arvore: " << (eh_arvore() ? "Sim" : "Não") << endl;
     cout << "Aresta Ponte: " << (possui_ponte() ? "Sim" : "Não") << endl;
     cout << "Vertice de Articulação: " << (possui_articulacao() ? "Sim" : "Não") << endl;
+}
+
+void GrafoMatriz::novo_grafo(){
+    //sem erro
 }
 

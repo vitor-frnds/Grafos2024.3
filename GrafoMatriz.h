@@ -29,6 +29,7 @@ public:
     virtual bool aresta_ponderada() override;
     virtual bool possui_articulacao() override;
     virtual bool possui_ponte() override;
+    virtual void novo_grafo() override;
 };
 
 #endif
