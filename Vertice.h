@@ -26,6 +26,7 @@ public:
     Aresta** getVetorArestas();
     int totalArestasSaida();
 
+
 private:
     int id;
     int peso;
