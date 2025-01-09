@@ -28,6 +28,11 @@ public:
     bool possui_ponte() override;
     void carrega_grafo() override; /// Função que lê um arquivo txt com um grafo e carrega ele
     void novo_grafo() override;
+
+    // Gabriel
+    void salvaGrafoLista(std::string nomeArquivo);
+    void imprimeGrafo(std::string nomeArquivo);
+    
 private:
     Vertice* raizVertice;
     Aresta* raizAresta;

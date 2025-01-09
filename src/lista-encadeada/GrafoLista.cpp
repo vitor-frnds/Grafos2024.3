@@ -337,3 +337,45 @@ void GrafoLista::novo_grafo() {
     //imprimirArestas();
     arquivo.close();
 }
+void GrafoLista::imprimeGrafo(string nomeArquivo)
+{
+    cout<<nomeArquivo<<"\n";
+
+    cout<<"Grau: "<<get_grau()<<"\n";
+
+    cout<<"Ordem: "<<get_ordem()<<"\n";
+
+    if(eh_direcionado())
+    {cout<<"Direcionado: "<<"Sim"<<"\n";}
+    else{cout<<"Direcionado: "<<"Nao"<<"\n";}
+
+    cout<<"Componentes conexas: "<<n_conexo()<<"\n";
+
+    if(vertice_ponderado())
+    {cout<<"Vertices ponderados: "<<"Sim"<<"\n";}
+    else{cout<<"Vertices ponderados: "<<"Nao"<<"\n";}
+
+    if(aresta_ponderada())
+    {cout<<"Arestas ponderadas: "<<"Sim"<<"\n";}
+    else{cout<<"Arestas ponderadas: "<<"Nao"<<"\n";}
+
+    if(eh_completo())
+    {cout<<"Completo: "<<"Sim"<<"\n";}
+    else{cout<<"Completo: "<<"Nao"<<"\n";}
+
+    if(eh_bipartido())
+    {cout<<"Bipartido: "<<"Sim"<<"\n";}
+    else{cout<<"Bipartido: "<<"Nao"<<"\n";}
+
+    if(eh_arvore())
+    {cout<<"Arvore: "<<"Sim"<<"\n";}
+    else{cout<<"Arvore: "<<"Nao"<<"\n";}
+
+    if(possui_ponte())
+    {cout<<"Aresta Ponte: "<<"Sim"<<"\n";}
+    else{cout<<"Aresta Ponte: "<<"Nao"<<"\n";}
+
+    if(possui_articulacao())
+    {cout<<"Vertide de Articulacao: "<<"Sim"<<"\n";}
+    else{cout<<"Vertide de Articulacao: "<<"Nao"<<"\n";}
+}
