@@ -13,6 +13,7 @@ Vertice::Vertice(int _id) {
     arestas = new Aresta*[tam];
 }
 
+
 Vertice::~Vertice() {
     delete [] arestas;
 }
