@@ -59,24 +59,31 @@ void GrafoMatriz::adicionaAresta(int origem, int destino, int peso) {
 }
 void GrafoMatriz::buscaProfundidade(int u, bool visitado[]) {
     visitado[u] = true;
-    for (int v = 0; v < numVertices; v++) {
-        if (matriz[u][v] && !visitado[v]) {//se é != 0 e v ainda nao foi visitado
-            buscaProfundidade(v, visitado);
+        if(direcionado){
+            for(int v = 0; v < numVertices; v++) {
+                if (matriz[u][v] && !visitado[v]) {//se é != 0 e v ainda nao foi visitado
+                    buscaProfundidade(v, visitado);
+                }
+            }
+        }else{
+           for(int v = 0; v < numVertices; v++) {
+                if (matriz[v][u] && !visitado[v]) {//se é != 0 e v ainda nao foi visitado
+                    buscaProfundidade(v, visitado);
+                }
+            }
         }
-    }
 }
 
 int GrafoMatriz::n_conexo() {
     bool visitado[MAX_VERTICES] = {false};
     int componentes = 0;
-
-    for (int i = 0; i < numVertices; i++) {
-        if (!visitado[i]) {
-            componentes++;
-            buscaProfundidade(i, visitado);
+        for (int i = 0; i < numVertices; i++) {
+            if (!visitado[i]) {
+                componentes++;
+                buscaProfundidade(i, visitado);
+            }
         }
-    }
-    return componentes;
+        return componentes;
 }
 
 int GrafoMatriz::get_grau(){
