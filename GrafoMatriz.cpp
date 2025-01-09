@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstdlib>
 using std::ifstream;
+using std::ofstream;
 using std::string;
 using std::cout;
 using std::endl;

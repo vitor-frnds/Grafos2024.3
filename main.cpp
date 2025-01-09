@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "GrafoLista.h"
+#include "GrafoMatriz.h"
 
 using namespace std;
 
@@ -44,6 +45,11 @@ int main(int argc, char *argv[])
         if (estrutura == "-m")
         {
             cout << "Teste: grafo -d -m entrou" << "\n";
+
+            // GrafoMatriz grafo1(0, true);
+            // grafo1.carrega_grafo();
+            // grafo1.imprimir_descricao();
+
             // carrega grafo como matriz
             //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
         }
@@ -70,6 +76,11 @@ int main(int argc, char *argv[])
         if (estrutura == "-m")
         {
             cout << "Teste: grafo -c -m entrou" << "\n";
+            
+            // GrafoMatriz grafo1(0, true);
+            // grafo1.novo_grafo();
+            // grafo1.imprimir_descricao();
+            
             // carrega grafo como matriz
             //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
         }
