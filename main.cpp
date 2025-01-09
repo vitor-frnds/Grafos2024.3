@@ -82,38 +82,9 @@ using std::cout;
 using std::endl;
 
 int main() {
-    // Teste 1: Criar um grafo manualmente e verificar se é bipartido
-    /*GrafoMatriz grafo1(6, false); // Grafo com 4 vértices, não direcionado
-    grafo1.adicionaAresta(1, 2, 1);
-    grafo1.adicionaAresta(2, 3, 1);
-    grafo1.adicionaAresta(3, 4, 1);
-    grafo1.adicionaAresta(4, 1, 1);
-    grafo1.adicionaAresta(3,1,1);
-    //grafo1.adicionaAresta() // Forma um ciclo de tamanho par (bipartido)
-    
-
-    cout << "Teste 1 - Grafo manual: " << endl;
-    cout << "O grafo é bipartido? " << (grafo1.eh_bipartido() ? "Sim" : "Não") << endl;
-    cout << "Qual o grau do grafo?" << grafo1.get_grau() << endl;
-    cout << "O grafo é completo? " << (grafo1.eh_completo() ? "Sim" : "Não") << endl;
-    cout << "Número de componentes conexas: " << grafo1.n_conexo() << endl;
-    cout << "Número de arestas: " << grafo1.contarArestas() << endl;
-
-    // Teste 2: Verificar propriedades de um grafo carregado de arquivo
-    GrafoMatriz grafo2(0, false);
-    cout << "\nTeste 2 - Carregando grafo do arquivo:" << endl;
-    grafo2.carrega_grafo();
-    cout << "O grafo é bipartido? " << (grafo2.eh_bipartido() ? "Sim" : "Não") << endl;
-    cout << "O grafo é uma árvore? " << (grafo2.eh_arvore() ? "Sim" : "Não") << endl;
-    cout << "Número de componentes conexas: " << grafo2.n_conexo() << endl;
-    cout << "Número de arestas: " << grafo2.contarArestas() << endl;*/
-    GrafoMatriz grafo1(4, true);
-    //grafo1.carrega_grafo();
-    grafo1.adicionaAresta(1, 2, 1);
-    grafo1.adicionaAresta(2,3,5);
-    grafo1.adicionaAresta(2,4,6);
+    GrafoMatriz grafo1(6, true);
+    grafo1.carrega_grafo();
     grafo1.imprimir_descricao();
-    //GrafoMatriz grafo1(2,true);
 
 
     return 0;

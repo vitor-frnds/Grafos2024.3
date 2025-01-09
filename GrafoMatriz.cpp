@@ -1,159 +1,3 @@
-/*#include "GrafoMatriz.h"
-#include <queue>
-#include <string>
-#include <stdexcept>
-#include <iostream>
-#include <fstream>
-#include <vector>
-using std::vector;
-using std::queue;
-using std::ifstream;
-using std::string;
-
-
-
-
-GrafoMatriz::GrafoMatriz(int numVertices, bool direcionado) {
-    this->numVertices = numVertices; // Inicializa o número de vértices
-    this->direcionado = direcionado; // Inicializa se o grafo é direcionado
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
-            matriz[i][j] = 0;
-        }
-    } // Cria a matriz de adjacência
-}
-
-bool GrafoMatriz::eh_bipartido() {
-    vector<int> cores(numVertices, -1); //para mostrar que não foi colorido
-    std::queue<int> q; //fila para busca em largura
-
-    for (int i = 0; i < numVertices; i++) {
-        if (cores[i] == -1) {
-            cores[i] = 0;
-            q.push(i); //elemento colocado no final da fila
-
-            //equanto houver vertices na fila remove o vertice u do 
-            //início da fila para processar vizinhos
-            while (!q.empty()) {
-                int u = q.front(); //retorna o elemento na frente do container
-                q.pop(); //remove o elemento da frente do container
-
-                //percorre os vertices para ver se há uma aresta entre o vértice u e v
-                for (int v = 0; v < numVertices; v++) {
-                    //se matriz[u][v] for verdadeiro, significa que há uma aresta entre os dois vértices
-                    if (matriz[u][v] && cores[v] == -1) {
-                        //vertice v é colorido para o conjunto oposto de u
-                        cores[v] = 1 - cores[u];
-                        //vizinhos processador mais tarde
-                        q.push(v);
-                    } else if (matriz[u][v] && cores[v] == cores[u]) {
-                        //se há uma aresta entre u e v e possuem a mesma cor,
-                        //não há como o grafo ser bipartido
-                        return false;
-                    }
-                }
-            }
-        }
-    }
-    return true;
-}
-
-void GrafoMatriz::BuscaProfundidade(int u, std::vector<bool>& visitado, const std::vector<vector<int>>& matriz) {
-    visitado[u] = true;
-    for (int v = 0; v < matriz.size(); v++) {
-        if (matriz[u][v] && !visitado[v]) {
-            BuscaProfundidade(v, visitado, matriz);
-        }
-    }
-}
-int GrafoMatriz::n_conexo() {
-    vector<bool> visitado(numVertices, false);
-    int componentes = 0;
-
-    for (int i = 0; i < numVertices; i++) {
-        if (!visitado[i]) {
-            componentes++;
-            BuscaProfundidade(i, visitado, matriz);
-        }
-    }
-
-    return componentes;
-}
-
-int GrafoMatriz::get_grau(int vertice){
-    int grau = 0;
-    //linha vertice da matriz representa todas as arestas conectadas ao vértice vertice
-    for (int i = 0; i < numVertices; i++) {
-        //ve as arestas entre o vertice e i
-        grau += matriz[vertice][i];
-    }
-    return grau;
-}
-
-int GrafoMatriz::get_ordem(){
-    return numVertices;
-}
-
-bool GrafoMatriz::eh_direcionado(){
-    return direcionado;
-}
-
-int GrafoMatriz::contarArestas() const{
-    int arestas = 0;
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
-            if (matriz[i][j] != 0) {
-                arestas++;
-            }
-        }
-    }
-    return direcionado ? arestas : arestas / 2;
-}
-bool GrafoMatriz::eh_completo(){
-    //i vertice "origem" e j vertice "destino"
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
-            if (i != j && !matriz[i][j]) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-//para ser uma árvore preciso ter apenas um componente conexo
-//e arestas = vertice-1
-bool GrafoMatriz::eh_arvore() {
-    return (n_conexo() == 1 && contarArestas() == numVertices - 1);
-}
-
-void GrafoMatriz::carrega_grafo(const string& arquivo) {
-    ifstream file(arquivo);
-    if (!file.is_open()) {
-        std::cerr << "Erro ao abrir o arquivo." << endl;
-        return;
-    }
-
-    file >> numVertices;
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
-            matriz[i][j] = 0;
-        }
-    }
-
-    int u, v, peso;
-    while (file >> u >> v >> peso) {
-        adicionaAresta(u, v, peso);
-    }
-    file.close();
-}
-void GrafoMatriz::adicionaAresta(int u, int v, int peso) {
-    matriz[u][v] = peso;
-    if (!direcionado) {
-        matriz[v][u] = peso;
-    }
-}*/
-
 #include "GrafoMatriz.h"
 #include <queue>
 #include <iostream>
@@ -178,23 +22,26 @@ GrafoMatriz::GrafoMatriz(int vertices, bool dir) : numVertices(vertices), direci
 bool GrafoMatriz::eh_bipartido() {
     int cores[MAX_VERTICES];
     for (int i = 0; i < numVertices; i++) {
-        cores[i] = -1; //inicializa as cores
+        cores[i] = -1; //inicializa as cores em -1 para dizer que ainda nao foi coloriada
     }
 
     int fila[MAX_VERTICES], inicio = 0, fim = 0;
     for(int i=0; i<numVertices; i++){
         if(cores[i]==-1){
-            cores[i] = 0;
-            fila[fim++] = i;
+            cores[i] = 0; //cor do primeiro 0
+            fila[fim] = i; //add vertice inical na fila
+            fim++;
             while(inicio<fim){
-                int u = fila[inicio++];
+                int u = fila[inicio];//remove o vertice do incio da fila
+                inicio++;
                 for(int v=0; v<numVertices; v++){
-                    if(matriz[u][v]){
+                    if(matriz[u][v]){ //se é diferente de 0
                         if(cores[v]==-1){
-                            cores[v] = 1 - cores[u];
-                            fila[fim++] = v;
+                            cores[v] = 1 - cores[u]; //v é colorida com a cor oposta de u
+                            fila[fim] = v;//enfileira v
+                            fim++;
                         }else if(cores[v]==cores[u]){
-                            return false;
+                            return false;//se u e v sao da mesma cor é falso
                         }
                     }
                 }
@@ -205,16 +52,16 @@ bool GrafoMatriz::eh_bipartido() {
 }
 
 void GrafoMatriz::adicionaAresta(int origem, int destino, int peso) {
-    matriz[origem - 1][destino - 1] = peso; //ajuste de índice para 1-based input
+    matriz[origem - 1][destino - 1] = peso;
     if (!direcionado) {
-        matriz[destino - 1][origem - 1] = peso; //se não for direcionado
+        matriz[destino - 1][origem - 1] = 1;
     }
 }
-void GrafoMatriz::BuscaProfundidade(int u, bool visitado[]) {
+void GrafoMatriz::buscaProfundidade(int u, bool visitado[]) {
     visitado[u] = true;
     for (int v = 0; v < numVertices; v++) {
         if (matriz[u][v] && !visitado[v]) {
-            BuscaProfundidade(v, visitado);
+            buscaProfundidade(v, visitado);
         }
     }
 }
@@ -226,41 +73,38 @@ int GrafoMatriz::n_conexo() {
     for (int i = 0; i < numVertices; i++) {
         if (!visitado[i]) {
             componentes++;
-            BuscaProfundidade(i, visitado);
+            buscaProfundidade(i, visitado);
         }
     }
     return componentes;
 }
 
-/*int GrafoMatriz::get_grauVertice(int vertice) {
-    int grau = 0;
-    for (int i = 0; i < numVertices; i++) {
-        grau += matriz[vertice][i];
-    }
-    return grau;
-}
-int GrafoMatriz::get_grau() {
-        int grauTotal = 0;
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                grauTotal += matriz[i][j];
-            }
-        }
-        return direcionado ? grauTotal : grauTotal / 2;
-}*/
-
 int GrafoMatriz::get_grau(){
     int maior=0;
-
-    for(int i=0; i<numVertices; i++){
-        int grau = 0;
-        for(int j=0; j<numVertices; j++){
-            if(matriz[i][j]){
-                grau++;
+    if(direcionado){
+        for(int i=0; i<numVertices; i++){
+            int grau = 0;
+            for(int j=0; j<numVertices; j++){
+                if(matriz[j][i]){
+                    grau++;
+                }
+            }
+            if(grau>maior){
+                maior = grau;
             }
         }
-        if(grau>maior){
-            maior = grau;
+        return maior;
+    }else{
+        for(int i=0; i<numVertices; i++){
+            int grau = 0;
+            for(int j=0; j<numVertices; j++){
+                if(matriz[i][j]){
+                    grau++;
+                }
+            }
+            if(grau>maior){
+                maior = grau;
+            }
         }
     }
     return maior;
@@ -347,18 +191,26 @@ void GrafoMatriz::carrega_grafo() {
     }
 
     //ler arestas
-    int origem, destino, pesoAresta;
+    int origem, destino, pesoAresta, pesoNada;
     while (arquivo >> origem >> destino) {
-    
+        
         if (ponderado_arestas == 1) {
             arquivo >> pesoAresta;
         } else {
+            arquivo >> pesoNada;
             pesoAresta = 1;
         }
 
-        matriz[origem - 1][destino - 1] = pesoAresta; //insere na matriz de adjacência
-        if (!direcionado) {
-            matriz[destino - 1][origem - 1] = pesoAresta; // Se não for direcionado, insere na outra direção
+        if(direcionado){
+            matriz[origem - 1][destino - 1] = pesoAresta;
+        }
+        else{
+            if(origem<destino){
+                matriz[origem - 1][destino - 1] = pesoAresta;
+            }
+            else{
+                matriz[destino-1][origem-1] = pesoAresta;
+            }
         }
     }
 
@@ -366,12 +218,12 @@ void GrafoMatriz::carrega_grafo() {
     //cout<< "Arquivo fechado com sucesso"<<endl;
     // Exibir o grafo carregado
     //cout << "Grafo carregado com sucesso!" << endl;
-    //cout << "Matriz de adjacência:" << endl;
+    /*cout << "Matriz de adjacência:" << endl;
     for (int i = 0; i < numVertices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
-            //std::cout << matriz[i][j] << " ";
+            std::cout << matriz[i][j] << " ";
         }
-        //std::cout << endl;
+        std::cout << endl;
     }
 
     if (ponderado_nos == 1) {
@@ -379,20 +231,9 @@ void GrafoMatriz::carrega_grafo() {
         for (int i = 0; i < numVertices; ++i) {
             //std::cout << "Vértice " << (i + 1) << ": " << pesosVertices[i] << endl;
         }
-    }
-
-    /*cout << "Grau: " << get_grau() << endl;
-    cout << "Ordem: " << get_ordem() << endl;
-    cout << "Direcionado: " << (eh_direcionado() ? "Sim" : "Não") << endl;
-    cout << "Componentes conexas: " << n_conexo() << endl;
-    cout << "Vertices ponderados: " << (vertice_ponderado() ? "Sim" : "Não") << endl;
-    cout << "Arestas ponderadas: " << (aresta_ponderada() ? "Sim" : "Não") << endl;
-    cout << "Completo: " << (eh_completo() ? "Sim" : "Não") << endl;
-    cout << "Bipartido: " << (eh_bipartido() ? "Sim" : "Não") << endl;
-    cout << "Arvore: " << (eh_arvore() ? "Sim" : "Não") << endl;*/
+    }*/
 }
 void GrafoMatriz::imprimir_descricao() {
-    //cout << "Começando função de imprimir" << endl;
     cout << "Grau: " << get_grau() << endl;
     cout << "Ordem: " << get_ordem() << endl;
     cout << "Direcionado: " << (eh_direcionado() ? "Sim" : "Não") << endl;
