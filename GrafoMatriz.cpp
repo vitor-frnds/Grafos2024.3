@@ -222,7 +222,7 @@ void GrafoMatriz::carrega_grafo() {
     //cout<< "Arquivo fechado com sucesso"<<endl;
     // Exibir o grafo carregado
     //cout << "Grafo carregado com sucesso!" << endl;
-    cout << "Matriz de adjacência:" << endl;
+    /*cout << "Matriz de adjacência:" << endl;
     for (int i = 0; i < numVertices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
             std::cout << matriz[i][j] << " ";
@@ -235,7 +235,7 @@ void GrafoMatriz::carrega_grafo() {
         for (int i = 0; i < numVertices; ++i) {
             //std::cout << "Vértice " << (i + 1) << ": " << pesosVertices[i] << endl;
         }
-    }
+    }*/
 }
 void GrafoMatriz::imprimir_descricao() {
     cout << "Grau: " << get_grau() << endl;
