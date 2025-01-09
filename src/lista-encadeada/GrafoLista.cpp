@@ -277,9 +277,9 @@ void GrafoLista::auxNConexo(bool *visitados, Vertice *v) {
     }
 }
 
-void GrafoLista::novo_grafo() {
+void GrafoLista::novo_grafo(string nomeArquivo) {
     ifstream arquivo;
-    arquivo.open("../../input/Descricao.txt", ios::in);
+    arquivo.open(nomeArquivo, ios::in);
 
     if (!arquivo.is_open()) {
         cout << "Erro ao abrir o arquivo!" << endl;

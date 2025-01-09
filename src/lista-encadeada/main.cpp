@@ -3,33 +3,89 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[])
+{
 
-    GrafoLista g;
-    g.carrega_grafo();
+    // comando inválido fornecido no terminal
+    if (argc < 4 || argc > 5)
+    {
+        cout << "Erro na quantidade de argumentos" << "\n";
+        return 1;
+    }
 
-    if (g.aresta_ponderada())
-        cout << "Arestas ponderadas." << endl;
+    string opcao = argv[1];
+    cout << "Valor armazenado em opcao: " << opcao << endl;
+    string estrutura = argv[2];
+    cout << "Valor armazenado em estrutura: " << estrutura << endl;
+    string arquivoDescricao, arquivoGrafo;
+
+    // Validação dos argumentos
+    if (opcao != "-c" && opcao != "-d")
+    {
+        cout << "Erro: opção inválida" << "\n";
+        return 1;
+    }
+
+    if (estrutura != "-l" && estrutura != "-m")
+    {
+        cout << "Erro: Estrutura inválida" << "\n";
+        return 1;
+    }
+
+    if (opcao == "-d")
+    {
+        if (argc != 4)
+        {
+            cout << "Erro: -d requer 4 argumentos" << "\n";
+            return 1;
+        }
+        arquivoGrafo = argv[3];
+        if (estrutura == "-m")
+        {
+            cout << "Teste: grafo -d -m entrou" << "\n";
+            // carrega grafo como matriz
+            //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
+        }
+        else
+        {
+            cout << "Teste: grafo -d -l entrou" << "\n";
+            GrafoLista g;
+            g.carrega_grafo(arquivoGrafo);
+            g.imprimeGrafo(arquivoGrafo);
+            // carrega grafo como lista
+            //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
+        }
+    }
+    else if (opcao == "-c")
+    {
+        if (argc != 5)
+        {
+            cout << "Erro: -c requer 5 argumentos" << "\n";
+            return 1;
+        }
+        arquivoDescricao = argv[3]; // arquivo passado para leitura
+        arquivoGrafo = argv[4];     // arquivo passado para escrita
+
+        if (estrutura == "-m")
+        {
+            cout << "Teste: grafo -c -m entrou" << "\n";
+            // carrega grafo como matriz
+            //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
+        }
+        else
+        {
+            cout << "Teste: grafo -c -l entrou" << "\n";
+            GrafoLista g;
+             g.novo_grafo(arquivoDescricao);
+            g.salvaGrafoLista(arquivoGrafo);
+            // carrega grafo como lista
+            // imprime a descrição no fromato desejado
+        }
+    }
     else
-        cout << "Arestas nao ponderadas." << endl;
-
-    cout << "Ordem do grafo: " << g.get_ordem() << endl;
-
-    if (g.eh_direcionado())
-        cout << "Eh direcionado." << endl;
-    else
-        cout << "Nao eh direcionado." << endl;
-
-    int n = g.n_conexo();
-    if (n > 0)
-        cout << "Eh " << n << "-conexo." << endl;
-    else
-        cout << "Nao eh conexo." << endl;
-
-    if (g.eh_arvore())
-        cout << "Eh arvore." << endl;
-    else
-        cout << "Nao eh arvore." << endl;
-
+    {
+        cout << "Erro inesperado";
+        return 1;
+    }
     return 0;
 }

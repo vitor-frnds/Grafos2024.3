@@ -27,7 +27,7 @@ public:
     bool possui_articulacao() override;
     bool possui_ponte() override;
     void carrega_grafo(std::string nomeArquivo) override; /// Função que lê um arquivo txt com um grafo e carrega ele
-    void novo_grafo() override;
+    void novo_grafo(std::string nomeArquivo) override;
 
     // Gabriel
     void salvaGrafoLista(std::string nomeArquivo);
