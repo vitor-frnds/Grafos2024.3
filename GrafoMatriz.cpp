@@ -256,4 +256,119 @@ void GrafoMatriz::imprimir_descricao() {
 void GrafoMatriz::novo_grafo(){
     //sem erro
 }
+void GrafoMatriz::salvaGrafoMatriz(string entrada, string nomeArquivo) {
 
+    ifstream entrada;
+    ofstream arquivoGrafo;
+    arquivoGrafo.open(entrada, ios::in);
+    arquivoGrafo.open(nomeArquivo, ios::out);
+
+    if (!arquivoGrafo.is_open()) {
+        cout << "Erro ao abrir o arquivo!" << endl;
+        exit(1);
+    } else {
+        
+        arquivoGrafo << nomeArquivo << "\n\n";
+        arquivoGrafo << numVertices << " " << direcionado << " "<< vertice_ponderado() << " " << aresta_ponderada() << "\n";
+
+        if (vertice_ponderado()) {
+            int pesosVertices[numVertices];
+            for (int i = 0; i < numVertices; i++) {
+                arquivoGrafo << pesosVertices[i] <<" ";
+        }
+            }
+        }
+
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                if (matriz[i][j] != 0) {
+                    if (aresta_ponderada()) {
+                        arquivoGrafo << i << " " << j << " " << matriz[i][j] << "\n";
+                    } else {
+                        arquivoGrafo << i << " " << j << "\n";
+                    }
+                }
+            }
+        }
+    
+    arquivoGrafo.close();
+}
+
+bool GrafoMatriz::possui_ponte() {
+    int componentesIniciais = n_conexo();
+
+    for (int i = 0; i < numVertices; i++) {
+        for (int j = 0; j < numVertices; j++) {
+            if (matriz[i][j] != 0) {  
+                int peso = matriz[i][j];  // Armazena o peso da aresta 
+                // Removendo aresta(s)
+
+                if (!direcionado) {
+                    matriz[j][i] = 0; //remove a simetrica se direcionado
+                    matriz[i][j] = 0;
+                }
+                else{
+                matriz[i][j] = 0;}
+                if (n_conexo() > componentesIniciais) {
+                    
+                    if (!direcionado)
+                    {
+                        matriz[i][j] = peso;
+                        matriz[j][i] = peso;
+                        return true; // Há pelo menos uma ponte
+                    }
+                    else{
+                    matriz[i][j] = peso;
+                    return true; // Há pelo menos uma ponte
+                }}
+                matriz[i][j] = peso;
+
+                if (!direcionado) {
+                    matriz[j][i] = peso; // Restaura a aresta reversa se o grafo não for direcionado
+                }
+            }
+        }
+    }
+
+    return false; // Não há pontes
+}
+
+bool GrafoMatriz::possui_articulacao() {
+    
+    int componentesIniciais = n_conexo(); 
+
+    for (int i = 0; i < numVertices; ++i) {
+        // Aux para a linha e a coluna do vértice i, pra restauração 
+        int linhaAux[MAX_VERTICES];
+        int colunaAux[MAX_VERTICES];
+        for (int j = 0; j < numVertices; ++j) {
+            linhaAux[j] = matriz[i][j];
+            colunaAux[j] = matriz[j][i];
+        }
+
+        // Remover o vértice
+        for (int j = 0; j < numVertices; ++j) {
+            matriz[i][j] = 0;
+            matriz[j][i] = 0;
+        }
+
+       
+        if (n_conexo() > componentesIniciais) {
+            // Restaurando vértice
+            
+            for (int j = 0; j < numVertices; ++j) {
+                matriz[i][j] = linhaAux[j];
+                matriz[j][i] = colunaAux[j];
+            }
+            return true; // Pelo menos um vértice de articulação
+        }
+
+        // Restaurando vértice
+        for (int j = 0; j < numVertices; ++j) {
+            matriz[i][j] = linhaAux[j];
+            matriz[j][i] = colunaAux[j];
+        }
+    }
+
+    return false; // Não possui vértices de articulação
+}
