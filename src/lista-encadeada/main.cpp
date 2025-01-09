@@ -48,12 +48,12 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "Teste: grafo -d -l entrou" << "\n";
+            cout << "Comando grafo -d -l entrou" << "\n";
             GrafoLista g;
             g.carrega_grafo(arquivoGrafo);
             g.imprimeGrafo(arquivoGrafo);
             // carrega grafo como lista
-            //  passar pra depois desse pedaço // imprime a descrição no fromato desejado
+            // imprime a descrição no fromato desejado
         }
     }
     else if (opcao == "-c")
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            cout << "Teste: grafo -c -l entrou" << "\n";
+            cout << "Comando Grafo -c -l entrou" << "\n";
             GrafoLista g;
              g.novo_grafo(arquivoDescricao);
             g.salvaGrafoLista(arquivoGrafo);
