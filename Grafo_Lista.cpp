@@ -115,6 +115,7 @@ bool GrafoLista::eh_bipartido() {
 
         // Variável para verificar se a combinação atual é bipartida
         bool ehBipartido = true;
+        
 
         // Verifica a combinação binária atual
         for (int j = 0; j < num; j++) {
