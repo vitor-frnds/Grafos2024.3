@@ -325,7 +325,45 @@ bool GrafoMatriz::possui_ponte() {
 }
 
 bool GrafoMatriz::possui_articulacao() {
-    return false;  // Implementação fictícia; ajuste conforme necessário
+    
+    int componentesIniciais = n_conexo(); 
+
+    for (int i = 0; i < numVertices; ++i) {
+        // Aux para a linha e a coluna do vértice i, pra restauração 
+        int linhaAux[MAX_VERTICES];
+        int colunaAux[MAX_VERTICES];
+        for (int j = 0; j < numVertices; ++j) {
+            linhaAux[j] = matriz[i][j];
+            colunaAux[j] = matriz[j][i];
+        }
+
+        // Remover o vértice
+        for (int j = 0; j < numVertices; ++j) {
+            matriz[i][j] = 0;
+            matriz[j][i] = 0;
+        }
+
+       
+        if (n_conexo() > componentesIniciais) {
+            // Restaurando vértice
+            
+            for (int j = 0; j < numVertices; ++j) {
+                matriz[i][j] = linhaAux[j];
+                matriz[j][i] = colunaAux[j];
+            }
+            return true; // Pelo menos um vértice de articulação
+        }
+
+        // Restaurando vértice
+        for (int j = 0; j < numVertices; ++j) {
+            matriz[i][j] = linhaAux[j];
+            matriz[j][i] = colunaAux[j];
+        }
+    }
+
+    return false; // Não possui vértices de articulação
 }
+
+
 
 

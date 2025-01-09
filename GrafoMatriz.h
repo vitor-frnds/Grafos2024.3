@@ -32,6 +32,7 @@ public:
 
     void salvaGrafoMatriz(string entrada, string nomeArquivo) override;
     bool GrafoMatriz::possui_ponte() override;
+    bool GrafoMatriz::possui_articulacao() override;
 };
 
 #endif
